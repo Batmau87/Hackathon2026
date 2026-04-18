@@ -1,5 +1,6 @@
 using Fusion;
 using UnityEngine;
+using UnityEngine.InputSystem; 
 
 namespace HackathonJuego
 {
@@ -14,8 +15,11 @@ namespace HackathonJuego
 
         private void Update()
         {
-            // Solo disparamos cuando se presiona el clic izquierdo
-            if (!Input.GetMouseButtonDown(0)) return;
+            // Verificamos que haya un mouse conectado para evitar crasheos
+            if (Mouse.current == null) return;
+
+            // NUEVO SISTEMA: Solo disparamos cuando se presiona el clic izquierdo
+            if (!Mouse.current.leftButton.wasPressedThisFrame) return;
 
             if (_gameplay == null) _gameplay = FindFirstObjectByType<Gameplay>();
             
@@ -27,18 +31,17 @@ namespace HackathonJuego
                 return;
             }
 
-            // Creamos el rayo desde la posición del mouse en la pantalla
-            Ray ray = _myCamera.ScreenPointToRay(Input.mousePosition);
+            // NUEVO SISTEMA: Obtenemos la posición del mouse en la pantalla
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            Ray ray = _myCamera.ScreenPointToRay(mousePosition);
             
-            // ESTO DIBUJA EL LÁSER EN LA VENTANA 'SCENE' (Muy útil para ver qué falla)
+            // Dibuja el láser en la ventana 'SCENE'
             Debug.DrawRay(ray.origin, ray.direction * 100f, Color.green, 2f);
 
             // Disparamos el Raycast filtrando SOLO por nuestra LayerMask
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactableLayer))
             {
                 Debug.Log($"¡Le dimos a algo! Objeto tocado: {hit.collider.gameObject.name}");
-                
-                // Más adelante aquí pondremos la lógica para saber si es Caja o Botón
             }
             else
             {

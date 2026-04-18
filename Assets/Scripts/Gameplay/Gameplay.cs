@@ -10,18 +10,30 @@ namespace HackathonJuego
         public PlayerRef PlayerRef;
         public bool IsConnected;
         public bool IsReady;
-        
-        // El índice de la estación en la línea de proceso (0, 1 o 2)
         public int StationIndex; 
+        
+        public int Score; 
     }
 
-    public enum EGameplayState { Lobby = 0, Running = 1, Finished = 2 }
+    public enum EGameplayState 
+    { 
+        Lobby = 0, 
+        P0_Config = 1,      // El jugador 0 elige las probabilidades
+        P1_Inspect = 2,     // El jugador 1 abre una caja
+        P2_Distribute = 3,  // El jugador 2 reparte
+        Reveal = 4,         // Se abren todas y se dan puntos
+        Finished = 5 
+    }
 
     public class Gameplay : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     {
         [Header("Cámaras de las Estaciones")]
         [Tooltip("Arrastra aquí las 3 cámaras de la escena: [0]=Abre Caja, [1]=Saca Objetos, [2]=Envía")]
         public Camera[] StationCameras; 
+
+        // AQUÍ VAN NUESTRAS VARIABLES DE RONDA
+        [Networked] public int CurrentRound { get; set; } = 1;
+        [Networked] public int PlayerTurnIndex { get; set; } = 0;
 
         [Networked, Capacity(3)] public NetworkDictionary<PlayerRef, PlayerData> PlayerData { get; }
         [Networked] public EGameplayState State { get; set; }
@@ -35,8 +47,8 @@ namespace HackathonJuego
 
         public override void Render()
         {
-            // Lógica local: Cuando el estado cambia a Running, asignamos las cámaras una sola vez
-            if (State == EGameplayState.Running && !_camerasAssigned)
+            // Lógica local: Cuando el estado ya no es Lobby, asignamos las cámaras una sola vez
+            if (State != EGameplayState.Lobby && !_camerasAssigned)
             {
                 AssignLocalCamera();
             }
@@ -123,7 +135,8 @@ namespace HackathonJuego
                     }
                 }
 
-                State = EGameplayState.Running;
+                State = EGameplayState.P0_Config;
+                PlayerTurnIndex = 0;
             }
         }
     }

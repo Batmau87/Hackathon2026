@@ -36,8 +36,8 @@ namespace HackathonJuego
 
             if (_runner == null || _gameplay == null || _gameplay.Object == null || !_gameplay.Object.IsValid) return;
 
-            // 1. SI EL JUEGO YA EMPEZÓ (Apagar Lobby y preparar controles de mouse)
-            if (_gameplay.State == EGameplayState.Running)
+            // 1. SI EL JUEGO YA EMPEZÓ (Cualquier estado que NO sea Lobby)
+            if (_gameplay.State != EGameplayState.Lobby)
             {
                 if (!_lobbyApagado)
                 {

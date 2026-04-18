@@ -399,7 +399,6 @@ GameObject:
   m_Component:
   - component: {fileID: 330585546}
   - component: {fileID: 330585545}
-  - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
   m_Layer: 0
@@ -409,14 +408,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &330585544
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
 --- !u!20 &330585545
 Camera:
   m_ObjectHideFlags: 0
@@ -541,7 +532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Fusion.Unity::Fusion.EnableOnSingleRunner
   PreferredRunner: 0
   Components:
-  - {fileID: 330585544}
+  - {fileID: 0}
   _guid: 4cc42e84-1e37-4882-
 --- !u!1 &367641748
 GameObject:
@@ -888,7 +879,6 @@ GameObject:
   m_Component:
   - component: {fileID: 444936338}
   - component: {fileID: 444936337}
-  - component: {fileID: 444936336}
   - component: {fileID: 444936335}
   - component: {fileID: 444936334}
   m_Layer: 0
@@ -912,7 +902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Fusion.Unity::Fusion.EnableOnSingleRunner
   PreferredRunner: 0
   Components:
-  - {fileID: 444936336}
+  - {fileID: 0}
   _guid: 4cc42e84-1e37-4882-
 --- !u!114 &444936335
 MonoBehaviour:
@@ -958,14 +948,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &444936336
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444936333}
-  m_Enabled: 1
 --- !u!20 &444936337
 Camera:
   m_ObjectHideFlags: 0
@@ -1228,7 +1210,6 @@ GameObject:
   m_Component:
   - component: {fileID: 561531239}
   - component: {fileID: 561531238}
-  - component: {fileID: 561531237}
   - component: {fileID: 561531236}
   - component: {fileID: 561531235}
   m_Layer: 0
@@ -1252,7 +1233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Fusion.Unity::Fusion.EnableOnSingleRunner
   PreferredRunner: 0
   Components:
-  - {fileID: 561531237}
+  - {fileID: 0}
   _guid: 4cc42e84-1e37-4882-
 --- !u!114 &561531236
 MonoBehaviour:
@@ -1298,14 +1279,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &561531237
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 561531234}
-  m_Enabled: 1
 --- !u!20 &561531238
 Camera:
   m_ObjectHideFlags: 0
@@ -2698,12 +2671,12 @@ MeshFilter:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 410087041}
+  - {fileID: 832575519}
   - {fileID: 1083084954}
   - {fileID: 444936338}
   - {fileID: 330585546}
   - {fileID: 561531239}
-  - {fileID: 410087041}
-  - {fileID: 832575519}
   - {fileID: 552087765}
   - {fileID: 541477706}
   - {fileID: 1667704420}

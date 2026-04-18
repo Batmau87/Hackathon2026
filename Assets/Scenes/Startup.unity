@@ -1981,6 +1981,30 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9029239335707870229, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_text
+      value: QUIT GAME
+      objectReference: {fileID: 0}
+    - target: {fileID: 9029239335707870229, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: afa6eb55089aa924fbf47ad202b29ba8, type: 2}
+    - target: {fileID: 9029239335707870229, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9029239335707870229, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -3258352073823816195, guid: afa6eb55089aa924fbf47ad202b29ba8, type: 2}
+    - target: {fileID: 9029239335707870229, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 9029239335707870229, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9029239335707870229, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
       objectReference: {fileID: 0}

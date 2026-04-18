@@ -32,8 +32,7 @@ RectTransform:
   m_Children:
   - {fileID: 2549449816141485735}
   - {fileID: 4215413211822194998}
-  m_Father: {fileID: 4039561197434561952}
-  m_RootOrder: 2
+  m_Father: {fileID: 9077368213347939459}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -110,10 +109,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9077368213347939459}
-  - {fileID: 7246033906755719911}
-  - {fileID: 3769755770049784910}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -122,7 +118,7 @@ RectTransform:
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &944360866414241742
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -136,10 +132,12 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!223 &494486387937566829
 Canvas:
   m_ObjectHideFlags: 0
@@ -157,7 +155,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -214,11 +214,20 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 4039561197434561952}
+    serializedVersion: 3
+    m_TransformParent: {fileID: 9077368213347939459}
     m_Modifications:
     - target: {fileID: 5677097424650372304, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
       propertyPath: m_text
       value: Party Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677097424650372304, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152343671785352932, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 7570411946742944094, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -310,15 +319,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9063528844095650070, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9063528844095650070, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9063528844095650070, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9063528844095650070, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -341,6 +350,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3437044788141942351, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4861636081259063640}
   m_SourcePrefab: {fileID: 100100000, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
 --- !u!1 &3960313351493471678 stripped
 GameObject:
@@ -360,7 +375,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _textField: {fileID: 0}
-  _shortDescription: 0
 --- !u!114 &6790552619203842561 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5150967497489512944, guid: 13bd10092bb448f4e93e370a11809a5d, type: 3}
@@ -393,6 +407,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 3769755770049784910}
     m_Modifications:
     - target: {fileID: 237713985560705650, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
@@ -403,6 +418,10 @@ PrefabInstance:
       propertyPath: m_text
       value: create
       objectReference: {fileID: 0}
+    - target: {fileID: 588995924739533659, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 1803492464771240500, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -410,6 +429,10 @@ PrefabInstance:
     - target: {fileID: 1823892773511560098, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_text
       value: Start a new game and generate a session code for others players to join.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1823892773511560098, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 4791817731572473246, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_LocalPosition.x
@@ -543,11 +566,18 @@ PrefabInstance:
       propertyPath: m_text
       value: Create Party
       objectReference: {fileID: 0}
+    - target: {fileID: 8457140483042943486, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 8544207650983704811, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_Name
       value: CreateCard
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
 --- !u!224 &2549449816141485735 stripped
 RectTransform:
@@ -570,6 +600,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 3769755770049784910}
     m_Modifications:
     - target: {fileID: 237713985560705650, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
@@ -580,9 +611,17 @@ PrefabInstance:
       propertyPath: m_fontStyle
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 386289513751760935, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 588995924739533659, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_text
       value: join
+      objectReference: {fileID: 0}
+    - target: {fileID: 588995924739533659, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 1803492464771240500, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -592,9 +631,17 @@ PrefabInstance:
       propertyPath: m_text
       value: Join a party game by entering a session code.
       objectReference: {fileID: 0}
+    - target: {fileID: 1823892773511560098, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 3291500351185759403, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_fontStyle
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3291500351185759403, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 7299840491852229455, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -716,6 +763,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Join Party
       objectReference: {fileID: 0}
+    - target: {fileID: 8457140483042943486, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 8544207650983704811, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_Name
       value: JoinCard
@@ -726,7 +777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8979907433223591044, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_RegexValue
-      value: ^[A-Za-z0-9]
+      value: '^[A-Za-z0-9]'
       objectReference: {fileID: 0}
     - target: {fileID: 8979907433223591044, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
       propertyPath: m_ContentType
@@ -745,6 +796,9 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a3ea96e16c4bc844aaa73818f97cdba, type: 3}
 --- !u!114 &2983434111918446017 stripped
 MonoBehaviour:
@@ -778,6 +832,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 4039561197434561952}
     m_Modifications:
     - target: {fileID: 1069063535695972184, guid: 81492d77d1a2dc249825473704d5db4c, type: 3}
@@ -889,6 +944,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1701368489277379167, guid: 81492d77d1a2dc249825473704d5db4c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7246033906755719911}
+    - targetCorrespondingSourceObject: {fileID: 1701368489277379167, guid: 81492d77d1a2dc249825473704d5db4c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3769755770049784910}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81492d77d1a2dc249825473704d5db4c, type: 3}
 --- !u!224 &9077368213347939459 stripped
 RectTransform:

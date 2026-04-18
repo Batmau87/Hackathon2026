@@ -16,7 +16,11 @@ MonoBehaviour:
   _adaptFramerateForMobilePlatform: 1
   _availableAppVersions:
   - 1.0
-  _availableRegions: []
+  _availableRegions:
+  - 
+  - eu
+  - sa
+  - us
   _availableScenes:
   - Name: SampleScene
     ScenePath: Assets/Scenes/SampleScene.unity

@@ -2564,7 +2564,7 @@ MonoBehaviour:
   mainLobbyPanel: {fileID: 559382849}
   sessionCodeText: {fileID: 1327031106}
   playerCountText: {fileID: 696591818}
-  statusText: {fileID: 0}
+  statusText: {fileID: 570180572}
   startGameButton: {fileID: 1402192372}
   readyButton: {fileID: 134574710}
 --- !u!4 &1667704420

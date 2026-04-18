@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db9fd4126a55c042829623716e016a8, type: 3}
   m_Name: FusionMenuPartyCodeGenerator
   m_EditorClassIdentifier: 
-  ValidCharacters: ABCDEFGHIJKLMNPQRSTUVWXYZ123456789
-  Length: 8
+  ValidCharacters: 0123456789
+  Length: 5
+  EncodedRegionPosition: 4

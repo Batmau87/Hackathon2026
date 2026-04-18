@@ -97,3 +97,9 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# Large local source models that must not be pushed to GitHub
+/Assets/Models/Warehsouse.fbx
+/Assets/Models/Warehsouse.fbx.meta
+/Assets/Models/Warehouse.fbx
+/Assets/Models/Warehouse.fbx.meta

@@ -55,11 +55,16 @@ namespace HackathonJuego
             if (_gameplay.State == EGameplayState.Lobby) return;
 
             _localStation = _gameplay.GetLocalStationIndex();
-            if (_localStation < 0) return;
+            if (_localStation < 0)
+            {
+                Debug.Log($"[GameplayUI] LocalStation = -1, LocalPlayer = {_runner.LocalPlayer}, State = {_gameplay.State}");
+                return;
+            }
 
             if (_gameplay.State != _lastState)
             {
                 _lastState = _gameplay.State;
+                Debug.Log($"[GameplayUI] Estado cambió a {_gameplay.State}, mi estación = {_localStation}");
                 RefreshUI();
             }
 

@@ -16,36 +16,69 @@ namespace HackathonJuego
             if (Mouse.current == null || !Mouse.current.leftButton.wasPressedThisFrame)
                 return;
 
+            Debug.Log("[PlayerClicker] Click detectado");
+
             if (_gameplay == null)
                 _gameplay = FindFirstObjectByType<Gameplay>();
 
             if (_gameplay == null || Runner == null || !Runner.IsRunning)
+            {
+                Debug.Log("[PlayerClicker] BLOQUEADO: gameplay/runner null o no running");
                 return;
+            }
+
+            if (_gameplay.Object == null || !_gameplay.Object.IsValid)
+            {
+                Debug.Log("[PlayerClicker] BLOQUEADO: Gameplay no spawned aún");
+                return;
+            }
 
             if (_gameplay.State == EGameplayState.Lobby)
+            {
+                Debug.Log("[PlayerClicker] BLOQUEADO: Estado = Lobby");
                 return;
+            }
 
             // Evita disparar raycasts al mundo cuando el usuario esta interactuando con UI.
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("[PlayerClicker] BLOQUEADO: IsPointerOverGameObject (UI bloqueando)");
                 return;
+            }
 
             if (!_gameplay.PlayerData.TryGet(Runner.LocalPlayer, out var myData))
+            {
+                Debug.Log("[PlayerClicker] BLOQUEADO: No se encontró PlayerData para LocalPlayer");
                 return;
+            }
+
+            Debug.Log($"[PlayerClicker] Mi StationIndex={myData.StationIndex}, PlayerTurnIndex={_gameplay.PlayerTurnIndex}, State={_gameplay.State}");
 
             if (myData.StationIndex != _gameplay.PlayerTurnIndex)
+            {
+                Debug.Log("[PlayerClicker] BLOQUEADO: No es mi turno");
                 return;
+            }
 
             Camera activeCamera = GetLocalGameplayCamera(myData.StationIndex);
             if (activeCamera == null)
+            {
+                Debug.Log("[PlayerClicker] BLOQUEADO: No hay cámara activa");
                 return;
+            }
 
             Vector2 mousePosition = Mouse.current.position.ReadValue();
             Ray ray = activeCamera.ScreenPointToRay(mousePosition);
 
             if (!Physics.Raycast(ray, out RaycastHit hit, 100f, interactableLayer))
+            {
+                Debug.Log($"[PlayerClicker] Raycast NO impactó nada en layer {interactableLayer.value}");
                 return;
+            }
 
             GameObject interactableObject = ResolveInteractableObject(hit.collider);
+            Debug.Log($"[PlayerClicker] Raycast impactó: {hit.collider.name}, resuelto a: {(interactableObject != null ? interactableObject.name : "null")}, tag: {(interactableObject != null ? interactableObject.tag : "?")}");
+
             if (interactableObject == null)
                 return;
 

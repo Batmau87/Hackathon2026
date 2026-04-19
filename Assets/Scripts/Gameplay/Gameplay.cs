@@ -187,7 +187,11 @@ namespace HackathonJuego
             }
 
             if (allAssigned)
-                DoReveal();
+            {
+                // Primero mover cajas a sus estaciones, luego reveal
+                RPC_MoverCajasAEstaciones(
+                    BoxAssignments[0], BoxAssignments[1], BoxAssignments[2]);
+            }
         }
 
         private void MezclarCajas()
@@ -234,7 +238,8 @@ namespace HackathonJuego
                 if (JudgeTimer <= 0f)
                 {
                     AutoDistribute();
-                    DoReveal();
+                    RPC_MoverCajasAEstaciones(
+                        BoxAssignments[0], BoxAssignments[1], BoxAssignments[2]);
                 }
             }
         }
@@ -390,17 +395,6 @@ namespace HackathonJuego
             seq.AppendInterval(0.8f);
             seq.Append(boxParent.DOMove(judgeBeltTarget.position, beltMoveDuration).SetEase(beltMoveEase));
 
-            // Después de llegar al judge, separar cajas izquierda y derecha
-            seq.AppendCallback(() =>
-            {
-                Transform caja0 = boxParent.Find("Caja_0");
-                Transform caja2 = boxParent.Find("Caja_2");
-                if (caja0 != null)
-                    caja0.DOLocalMoveX(caja0.localPosition.x - judgeSpreadDistance, 0.6f).SetEase(Ease.OutBack);
-                if (caja2 != null)
-                    caja2.DOLocalMoveX(caja2.localPosition.x + judgeSpreadDistance, 0.6f).SetEase(Ease.OutBack);
-            });
-
             if (HasStateAuthority)
             {
                 seq.OnComplete(() =>
@@ -453,6 +447,52 @@ namespace HackathonJuego
                 int rndIdx = UnityEngine.Random.Range(0, unassignedStations.Count);
                 BoxAssignments.Set(box, unassignedStations[rndIdx]);
                 unassignedStations.RemoveAt(rndIdx);
+            }
+        }
+
+        /// <summary>
+        /// Mueve cada caja a la posición de la cámara de su estación asignada.
+        /// Desparenta las cajas del boxParent para que se muevan independientemente.
+        /// Cuando terminan, el servidor hace DoReveal().
+        /// </summary>
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        public void RPC_MoverCajasAEstaciones(int assign0, int assign1, int assign2)
+        {
+            int[] assignments = { assign0, assign1, assign2 };
+            float longestDuration = 0f;
+
+            for (int i = 0; i < 3; i++)
+            {
+                Transform caja = boxParent != null ? boxParent.Find("Caja_" + i) : null;
+                if (caja == null)
+                {
+                    caja = GameObject.Find("Caja_" + i)?.transform;
+                }
+                if (caja == null) continue;
+
+                int stationIdx = assignments[i];
+                if (stationIdx < 0 || stationIdx >= StationCameras.Length || StationCameras[stationIdx] == null)
+                    continue;
+
+                // Desparentar para mover independientemente
+                caja.SetParent(null);
+
+                // Destino: frente a la cámara de la estación
+                Transform camTransform = StationCameras[stationIdx].transform;
+                Vector3 destino = camTransform.position + camTransform.forward * 3f;
+
+                float duration = beltMoveDuration + 0.5f;
+                if (duration > longestDuration) longestDuration = duration;
+
+                caja.DOMove(destino, duration).SetEase(Ease.InOutQuad);
+            }
+
+            if (HasStateAuthority)
+            {
+                DOVirtual.DelayedCall(longestDuration + 0.3f, () =>
+                {
+                    DoReveal();
+                });
             }
         }
 

@@ -1094,7 +1094,7 @@ GameObject:
   - component: {fileID: 537287142}
   - component: {fileID: 537287141}
   m_Layer: 8
-  m_Name: Sphere
+  m_Name: Boton_Opcion2
   m_TagString: BotonConfig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1248,6 +1248,10 @@ MonoBehaviour:
   - {fileID: 467471214}
   _CurrentRound: 1
   _PlayerTurnIndex: 0
+  _DineroEnJuego: 0
+  _BombasEnJuego: 0
+  _BoxContents: 
+  _OpenedBoxIndex: -1
   _PlayerData:
     _items: []
   _State: 0
@@ -2285,7 +2289,7 @@ GameObject:
   - component: {fileID: 1138952103}
   - component: {fileID: 1138952102}
   m_Layer: 8
-  m_Name: Cube
+  m_Name: Caja_0
   m_TagString: CajaJuego
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2809,8 +2813,9 @@ GameObject:
   - component: {fileID: 1605273908}
   - component: {fileID: 1605273907}
   - component: {fileID: 1605273906}
+  - component: {fileID: 1605273909}
   m_Layer: 8
-  m_Name: Sphere (1)
+  m_Name: Boton_Opcion1
   m_TagString: BotonConfig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2888,6 +2893,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1605273909
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605273904}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1667704418
 GameObject:
   m_ObjectHideFlags: 0
@@ -2951,7 +2977,7 @@ GameObject:
   - component: {fileID: 1756361867}
   - component: {fileID: 1756361866}
   m_Layer: 8
-  m_Name: Cube (1)
+  m_Name: Caja_1
   m_TagString: CajaJuego
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3175,7 +3201,7 @@ GameObject:
   - component: {fileID: 2031721065}
   - component: {fileID: 2031721064}
   m_Layer: 8
-  m_Name: Cube (2)
+  m_Name: Caja_2
   m_TagString: CajaJuego
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3196,7 +3222,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -3292,6 +3318,6 @@ SceneRoots:
   - {fileID: 1138952105}
   - {fileID: 1756361869}
   - {fileID: 2031721067}
-  - {fileID: 537287144}
   - {fileID: 1605273908}
+  - {fileID: 537287144}
   - {fileID: 28634273}

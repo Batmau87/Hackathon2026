@@ -39,9 +39,38 @@ namespace HackathonJuego
             Debug.DrawRay(ray.origin, ray.direction * 100f, Color.green, 2f);
 
             // Disparamos el Raycast filtrando SOLO por nuestra LayerMask
+            // Disparamos el Raycast filtrando SOLO por nuestra LayerMask
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactableLayer))
             {
-                Debug.Log($"¡Le dimos a algo! Objeto tocado: {hit.collider.gameObject.name}");
+                GameObject objetoTocado = hit.collider.gameObject;
+                
+                // Si tocamos un botón de configuración
+                if (objetoTocado.CompareTag("BotonConfig"))
+                {
+                    int opcion = 1; // Por defecto la opción 1
+                    
+                    // Si el objeto se llama exactamente "Boton_Opcion2", cambiamos el valor
+                    if (objetoTocado.name == "Boton_Opcion2")
+                    {
+                        opcion = 2;
+                    }
+
+                    // Enviamos la orden al servidor
+                    _gameplay.RPC_SeleccionarPaquete(opcion);
+                    Debug.Log($"Clickeé el botón {opcion}, enviando señal al servidor...");
+                }
+                else if (objetoTocado.CompareTag("CajaJuego"))
+                {
+                    int boxIndex = 0;
+                    
+                    // Identificamos qué caja tocó por el nombre del GameObject
+                    if (objetoTocado.name == "Caja_1") boxIndex = 1;
+                    else if (objetoTocado.name == "Caja_2") boxIndex = 2;
+
+                    // Enviamos la orden al servidor (El servidor ignorará esto si no es el turno del Jugador 1)
+                    _gameplay.RPC_InspeccionarCaja(boxIndex);
+                    Debug.Log($"Intentando inspeccionar la caja {boxIndex}...");
+                }
             }
             else
             {

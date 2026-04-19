@@ -64,9 +64,9 @@ namespace HackathonJuego
 
         // --- RPC: SELECCIONAR PAQUETE (versión vieja con opción) ---
         [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-        public void RPC_SeleccionarPaquete(int opcionSeleccionada, RpcInfo info = default)
+        public void RPC_SeleccionarPaquete(int opcionSeleccionada, PlayerRef sender)
         {
-            Debug.Log($"<color=cyan>[Gameplay] RPC_SeleccionarPaquete recibido. opcion={opcionSeleccionada}, source={info.Source}, State={State}</color>");
+            Debug.Log($"<color=cyan>[Gameplay] RPC_SeleccionarPaquete recibido. opcion={opcionSeleccionada}, sender={sender}, State={State}</color>");
 
             if (State != EGameplayState.P0_Config)
             {
@@ -74,9 +74,9 @@ namespace HackathonJuego
                 return;
             }
 
-            if (!PlayerData.TryGet(info.Source, out var data))
+            if (!PlayerData.TryGet(sender, out var data))
             {
-                Debug.LogError($"[Gameplay] No se encontró PlayerData para {info.Source}");
+                Debug.LogError($"[Gameplay] No se encontró PlayerData para {sender}");
                 return;
             }
 
@@ -96,10 +96,10 @@ namespace HackathonJuego
 
         // --- RPC: CONFIGURAR CAJAS (usado por ArchitectPanel y PlayerClicker) ---
         [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-        public void RPC_ConfigurarCajas(int box0, int box1, int box2, RpcInfo info = default)
+        public void RPC_ConfigurarCajas(int box0, int box1, int box2, PlayerRef sender)
         {
             if (State != EGameplayState.P0_Config) return;
-            if (!PlayerData.TryGet(info.Source, out var data) || data.StationIndex != 0) return;
+            if (!PlayerData.TryGet(sender, out var data) || data.StationIndex != 0) return;
 
             BoxContents.Set(0, box0);
             BoxContents.Set(1, box1);
@@ -155,10 +155,10 @@ namespace HackathonJuego
 
         // --- RPC: OBSERVADOR PASA LAS CAJAS ---
         [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-        public void RPC_PasarCajas(RpcInfo info = default)
+        public void RPC_PasarCajas(PlayerRef sender)
         {
             if (State != EGameplayState.P1_Pass) return;
-            if (!PlayerData.TryGet(info.Source, out var data) || data.StationIndex != 1) return;
+            if (!PlayerData.TryGet(sender, out var data) || data.StationIndex != 1) return;
 
             for (int i = 0; i < 3; i++)
                 BoxAssignments.Set(i, -1);
@@ -170,10 +170,10 @@ namespace HackathonJuego
 
         // --- RPC: JUEZ ASIGNA UNA CAJA ---
         [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-        public void RPC_AsignarCaja(int boxIndex, int stationIndex, RpcInfo info = default)
+        public void RPC_AsignarCaja(int boxIndex, int stationIndex, PlayerRef sender)
         {
             if (State != EGameplayState.P2_Distribute) return;
-            if (!PlayerData.TryGet(info.Source, out var data) || data.StationIndex != 2) return;
+            if (!PlayerData.TryGet(sender, out var data) || data.StationIndex != 2) return;
             if (boxIndex < 0 || boxIndex >= 3 || stationIndex < 0 || stationIndex >= 3) return;
 
             BoxAssignments.Set(boxIndex, stationIndex);
@@ -323,11 +323,11 @@ namespace HackathonJuego
         }
 
         [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-        public void RPC_InspeccionarCaja(int cajaIndex, RpcInfo info = default)
+        public void RPC_InspeccionarCaja(int cajaIndex, PlayerRef sender)
         {
             if (State != EGameplayState.P1_Inspect) return;
 
-            if (PlayerData.TryGet(info.Source, out var data) && data.StationIndex == 1)
+            if (PlayerData.TryGet(sender, out var data) && data.StationIndex == 1)
             {
                 OpenedBoxIndex = cajaIndex;
                 int premioDentro = BoxContents[cajaIndex];
@@ -335,7 +335,7 @@ namespace HackathonJuego
                 Debug.Log($"El Jugador 1 inspeccionó la caja {cajaIndex}. Contenía: {premioDentro}");
 
                 // Abrir la caja en la compu del Observer solamente
-                RPC_MostrarAnimacionExclusiva(info.Source, cajaIndex, premioDentro);
+                RPC_MostrarAnimacionExclusiva(sender, cajaIndex, premioDentro);
 
                 // Cambiamos a P1_Pass — el Observer debe clickear de nuevo para cerrar y pasar
                 State = EGameplayState.P1_Pass;
@@ -347,10 +347,10 @@ namespace HackathonJuego
         /// El Observer clickea la caja abierta para cerrarla y enviarla al Juez.
         /// </summary>
         [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-        public void RPC_CerrarYPasarCajas(RpcInfo info = default)
+        public void RPC_CerrarYPasarCajas(PlayerRef sender)
         {
             if (State != EGameplayState.P1_Pass) return;
-            if (!PlayerData.TryGet(info.Source, out var data) || data.StationIndex != 1) return;
+            if (!PlayerData.TryGet(sender, out var data) || data.StationIndex != 1) return;
 
             // Cerrar la caja y mover todas al belt del Juez
             RPC_AnimarCierreYSlide(OpenedBoxIndex);

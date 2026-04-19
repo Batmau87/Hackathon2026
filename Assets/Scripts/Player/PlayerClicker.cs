@@ -85,9 +85,8 @@ namespace HackathonJuego
             if (interactableObject.CompareTag("BotonConfig"))
             {
                 int option = interactableObject.name.Contains("Opcion2") ? 2 : 1;
-                Debug.Log($"[PlayerClicker] Enviando RPC_SeleccionarPaquete con opcion={option}");
-                _gameplay.RPC_SeleccionarPaquete(option);
-                // Bloquear clicks subsiguientes cambiando el estado esperado
+                Debug.Log($"[PlayerClicker] Enviando RPC_SeleccionarPaquete con opcion={option}, LocalPlayer={Runner.LocalPlayer}");
+                _gameplay.RPC_SeleccionarPaquete(option, Runner.LocalPlayer);
                 return;
             }
 
@@ -100,14 +99,14 @@ namespace HackathonJuego
             // Fase P1_Inspect: Observer clickea caja para abrirla
             if (_gameplay.State == EGameplayState.P1_Inspect)
             {
-                _gameplay.RPC_InspeccionarCaja(boxIndex);
+                _gameplay.RPC_InspeccionarCaja(boxIndex, Runner.LocalPlayer);
                 return;
             }
 
             // Fase P1_Pass: Observer clickea la caja abierta para cerrarla y pasarla
             if (_gameplay.State == EGameplayState.P1_Pass)
             {
-                _gameplay.RPC_CerrarYPasarCajas();
+                _gameplay.RPC_CerrarYPasarCajas(Runner.LocalPlayer);
                 return;
             }
         }

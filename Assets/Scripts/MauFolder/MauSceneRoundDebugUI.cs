@@ -59,10 +59,10 @@ public class MauSceneRoundDebugUI : MonoBehaviour
             GUILayout.Label("Acciones del configurador");
 
             if (GUILayout.Button("Elegir 2 Money / 1 Bomb"))
-                _gameplay.RPC_SeleccionarPaquete(1);
+                _gameplay.RPC_SeleccionarPaquete(1, _gameplay.Runner.LocalPlayer);
 
             if (GUILayout.Button("Elegir 1 Money / 2 Bomb"))
-                _gameplay.RPC_SeleccionarPaquete(2);
+                _gameplay.RPC_SeleccionarPaquete(2, _gameplay.Runner.LocalPlayer);
         }
 
         if (localStation == 1 && _gameplay.State == EGameplayState.P1_Inspect)
@@ -72,7 +72,7 @@ public class MauSceneRoundDebugUI : MonoBehaviour
             for (int boxIndex = 0; boxIndex < 3; boxIndex++)
             {
                 if (GUILayout.Button($"Inspeccionar caja {boxIndex}"))
-                    _gameplay.RPC_InspeccionarCaja(boxIndex);
+                    _gameplay.RPC_InspeccionarCaja(boxIndex, _gameplay.Runner.LocalPlayer);
             }
         }
 
@@ -81,7 +81,7 @@ public class MauSceneRoundDebugUI : MonoBehaviour
             GUILayout.Label("Acciones del inspector");
 
             if (GUILayout.Button("Pasar cajas al distribuidor"))
-                _gameplay.RPC_PasarCajas();
+                _gameplay.RPC_PasarCajas(_gameplay.Runner.LocalPlayer);
         }
 
         if (localStation == 2 && _gameplay.State == EGameplayState.P2_Distribute)
@@ -97,7 +97,7 @@ public class MauSceneRoundDebugUI : MonoBehaviour
                 if (GUILayout.Button(label))
                 {
                     for (int stationIndex = 0; stationIndex < permutation.Length; stationIndex++)
-                        _gameplay.RPC_AsignarCaja(permutation[stationIndex], stationIndex);
+                        _gameplay.RPC_AsignarCaja(permutation[stationIndex], stationIndex, _gameplay.Runner.LocalPlayer);
                 }
             }
         }

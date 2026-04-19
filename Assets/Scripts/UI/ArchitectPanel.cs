@@ -99,7 +99,7 @@ namespace HackathonJuego
             int b1 = GetBoxContent(box1Toggle);
             int b2 = GetBoxContent(box2Toggle);
 
-            _gameplay.RPC_ConfigurarCajas(b0, b1, b2);
+            _gameplay.RPC_ConfigurarCajas(b0, b1, b2, _gameplay.Runner.LocalPlayer);
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.PlayUIClick();

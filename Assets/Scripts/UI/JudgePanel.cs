@@ -69,7 +69,7 @@ namespace HackathonJuego
             int targetStation = GetDropZone(screenPos);
             if (targetStation < 0) return;
 
-            _gameplay.RPC_AsignarCaja(boxIndex, targetStation);
+            _gameplay.RPC_AsignarCaja(boxIndex, targetStation, _gameplay.Runner.LocalPlayer);
             _assignedCount++;
 
             if (AudioManager.Instance != null)

@@ -81,7 +81,7 @@ namespace HackathonJuego
             if (_gameplay == null) return;
 
             _boxSelected = true;
-            _gameplay.RPC_InspeccionarCaja(boxIndex);
+            _gameplay.RPC_InspeccionarCaja(boxIndex, _gameplay.Runner.LocalPlayer);
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.PlayBoxOpen();
@@ -123,7 +123,7 @@ namespace HackathonJuego
                 _gameplay = FindFirstObjectByType<Gameplay>();
             if (_gameplay == null) return;
 
-            _gameplay.RPC_PasarCajas();
+            _gameplay.RPC_PasarCajas(_gameplay.Runner.LocalPlayer);
 
             if (AudioManager.Instance != null)
                 AudioManager.Instance.PlayBoxSlide();

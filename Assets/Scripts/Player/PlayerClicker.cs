@@ -56,7 +56,11 @@ namespace HackathonJuego
                     }
 
                     // Enviamos la orden al servidor
-                    _gameplay.RPC_SeleccionarPaquete(opcion);
+                    // opcion 1 = 2 dinero 1 bomba, opcion 2 = 1 dinero 2 bombas
+                    int b0, b1, b2;
+                    if (opcion == 1) { b0 = 1; b1 = 1; b2 = 2; }
+                    else             { b0 = 1; b1 = 2; b2 = 2; }
+                    _gameplay.RPC_ConfigurarCajas(b0, b1, b2);
                     Debug.Log($"Clickeé el botón {opcion}, enviando señal al servidor...");
                 }
                 else if (objetoTocado.CompareTag("CajaJuego"))

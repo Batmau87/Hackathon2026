@@ -62,8 +62,19 @@ namespace HackathonJuego
             if (!TryGetBoxIndex(interactableObject.transform, out int boxIndex))
                 return;
 
+            // Fase P1_Inspect: Observer clickea caja para abrirla
             if (_gameplay.State == EGameplayState.P1_Inspect)
+            {
                 _gameplay.RPC_InspeccionarCaja(boxIndex);
+                return;
+            }
+
+            // Fase P1_Pass: Observer clickea la caja abierta para cerrarla y pasarla
+            if (_gameplay.State == EGameplayState.P1_Pass)
+            {
+                _gameplay.RPC_CerrarYPasarCajas();
+                return;
+            }
         }
 
         private Camera GetLocalGameplayCamera(int stationIndex)

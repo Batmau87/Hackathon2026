@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using DG.Tweening;
 
 namespace HackathonJuego
 {
@@ -29,6 +30,16 @@ namespace HackathonJuego
     {
         [Header("Cámaras de las Estaciones")]
         public Camera[] StationCameras;
+
+        [Header("Movimiento de Cajas")]
+        [Tooltip("El parent de las 3 cajas (Caja_0, Caja_1, Caja_2)")]
+        public Transform boxParent;
+        [Tooltip("Empty en la posición del belt del Observer")]
+        public Transform observerBeltTarget;
+        [Tooltip("Empty en la posición del belt del Juez")]
+        public Transform judgeBeltTarget;
+        public float beltMoveDuration = 1.5f;
+        public Ease beltMoveEase = Ease.InOutQuad;
 
         [Networked] public int CurrentRound { get; set; } = 1;
         [Networked] public int PlayerTurnIndex { get; set; } = 0;
@@ -63,8 +74,7 @@ namespace HackathonJuego
                 else if (opcionSeleccionada == 2) { DineroEnJuego = 1; BombasEnJuego = 2; }
 
                 MezclarCajas();
-                State = EGameplayState.P1_Inspect;
-                PlayerTurnIndex = 1;
+                RPC_MoverCajasAObserver();
             }
         }
 
@@ -87,8 +97,40 @@ namespace HackathonJuego
             }
 
             Debug.Log($"<color=green>Cajas configuradas: [{box0},{box1},{box2}]</color>");
-            State = EGameplayState.P1_Inspect;
-            PlayerTurnIndex = 1;
+
+            // Mover cajas al belt del Observer en todos los clientes
+            RPC_MoverCajasAObserver();
+        }
+
+        /// <summary>
+        /// Llamado por el servidor: mueve las 3 cajas al belt del Observer con DOTween.
+        /// Cuando terminan, el servidor avanza el estado.
+        /// </summary>
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        public void RPC_MoverCajasAObserver()
+        {
+            if (boxParent == null || observerBeltTarget == null)
+            {
+                Debug.LogWarning("boxParent u observerBeltTarget no asignados.");
+                // Avanzar estado de todas formas si falta config
+                if (HasStateAuthority)
+                {
+                    State = EGameplayState.P1_Inspect;
+                    PlayerTurnIndex = 1;
+                }
+                return;
+            }
+
+            boxParent.DOMove(observerBeltTarget.position, beltMoveDuration)
+                .SetEase(beltMoveEase)
+                .OnComplete(() =>
+                {
+                    if (HasStateAuthority)
+                    {
+                        State = EGameplayState.P1_Inspect;
+                        PlayerTurnIndex = 1;
+                    }
+                });
         }
 
         // --- RPC: OBSERVADOR PASA LAS CAJAS ---
@@ -271,10 +313,72 @@ namespace HackathonJuego
                 int premioDentro = BoxContents[cajaIndex];
 
                 Debug.Log($"El Jugador 1 inspeccionó la caja {cajaIndex}. Contenía: {premioDentro}");
+
+                // Abrir la caja en la compu del Observer solamente
                 RPC_MostrarAnimacionExclusiva(info.Source, cajaIndex, premioDentro);
 
+                // Cambiamos a P1_Pass — el Observer debe clickear de nuevo para cerrar y pasar
                 State = EGameplayState.P1_Pass;
                 PlayerTurnIndex = 1;
+            }
+        }
+
+        /// <summary>
+        /// El Observer clickea la caja abierta para cerrarla y enviarla al Juez.
+        /// </summary>
+        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+        public void RPC_CerrarYPasarCajas(RpcInfo info = default)
+        {
+            if (State != EGameplayState.P1_Pass) return;
+            if (!PlayerData.TryGet(info.Source, out var data) || data.StationIndex != 1) return;
+
+            // Cerrar la caja y mover todas al belt del Juez
+            RPC_AnimarCierreYSlide(OpenedBoxIndex);
+        }
+
+        /// <summary>
+        /// Ejecuta en todos los clientes: cierra la caja abierta y mueve todas al belt del Juez.
+        /// </summary>
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+        public void RPC_AnimarCierreYSlide(int cajaAbierta)
+        {
+            // Cerrar la caja que estaba abierta
+            GameObject cajaObj = GameObject.Find("Caja_" + cajaAbierta);
+            if (cajaObj != null)
+            {
+                CajaVisual cv = cajaObj.GetComponent<CajaVisual>();
+                if (cv != null) cv.CerrarCaja();
+            }
+
+            if (boxParent == null || judgeBeltTarget == null)
+            {
+                Debug.LogWarning("boxParent o judgeBeltTarget no asignados.");
+                if (HasStateAuthority)
+                {
+                    for (int i = 0; i < 3; i++) BoxAssignments.Set(i, -1);
+                    JudgeTimer = judgeTimerDuration;
+                    State = EGameplayState.P2_Distribute;
+                    PlayerTurnIndex = 2;
+                }
+                return;
+            }
+
+            // Esperar a que cierre la animación, luego mover parent al belt del Juez
+            Sequence seq = DOTween.Sequence();
+            seq.AppendInterval(0.8f);
+            seq.Append(boxParent.DOMove(judgeBeltTarget.position, beltMoveDuration).SetEase(beltMoveEase));
+
+            if (HasStateAuthority)
+            {
+                seq.OnComplete(() =>
+                {
+                    for (int i = 0; i < 3; i++)
+                        BoxAssignments.Set(i, -1);
+
+                    JudgeTimer = judgeTimerDuration;
+                    State = EGameplayState.P2_Distribute;
+                    PlayerTurnIndex = 2;
+                });
             }
         }
 

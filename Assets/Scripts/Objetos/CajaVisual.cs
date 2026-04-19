@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 namespace HackathonJuego
 {
@@ -12,38 +13,67 @@ namespace HackathonJuego
         public GameObject objDinero;
         public GameObject objBomba;
 
-        // El servidor llamará a esta función SOLAMENTE en la compu del Jugador 1
+        [Header("Movimiento")]
+        public float dropDuration = 1.2f;
+        public Ease dropEase = Ease.OutBounce;
+
+        /// <summary>Estado de la caja: si está abierta o cerrada.</summary>
+        [HideInInspector] public bool isOpen = false;
+
+        private Vector3 _startPosition;
+
+        private void Awake()
+        {
+            _startPosition = transform.position;
+        }
+
+        /// <summary>
+        /// El servidor llama esto SOLO en la compu del Jugador 1 para revelar contenido.
+        /// </summary>
         public void RevelarPremioExclusivo(int tipoPremio)
         {
-            Debug.Log($"<color=magenta>¡Activando animación en la caja! Premio recibido: {tipoPremio}</color>");
+            Debug.Log($"<color=magenta>¡Activando animación en la caja! Premio: {tipoPremio}</color>");
 
-            // 1. Apagamos ambos y prendemos el correcto
             if (objDinero != null) objDinero.SetActive(false);
             if (objBomba != null) objBomba.SetActive(false);
 
             if (tipoPremio == 1 && objDinero != null) objDinero.SetActive(true);
             else if (tipoPremio == 2 && objBomba != null) objBomba.SetActive(true);
 
-            // 2. Disparamos los Triggers
-            if (boxAnimator != null) 
-            {
-                boxAnimator.SetTrigger("Abrir");
-                Debug.Log("Trigger 'Abrir' enviado al BoxAnimator.");
-            }
-            else 
-            {
-                Debug.LogError("El boxAnimator no está asignado en el Inspector de esta caja.");
-            }
+            AbrirCaja();
+        }
 
-            if (premioAnimator != null) 
-            {
+        /// <summary>Abre la caja con Animator.</summary>
+        public void AbrirCaja()
+        {
+            if (isOpen) return;
+            isOpen = true;
+
+            if (boxAnimator != null)
+                boxAnimator.SetTrigger("Abrir");
+
+            if (premioAnimator != null)
                 premioAnimator.SetTrigger("Subir");
-                Debug.Log("Trigger 'Subir' enviado al PremioAnimator.");
-            }
-            else 
-            {
-                Debug.LogError("El premioAnimator no está asignado en el Inspector de esta caja.");
-            }
+        }
+
+        /// <summary>Cierra la caja con Animator (animación inversa).</summary>
+        public void CerrarCaja()
+        {
+            if (!isOpen) return;
+            isOpen = false;
+
+            if (boxAnimator != null)
+                boxAnimator.SetTrigger("Cerrar");
+
+            if (premioAnimator != null)
+                premioAnimator.SetTrigger("Bajar");
+        }
+
+        /// <summary>Vuelve a la posición original.</summary>
+        public void ResetPosicion()
+        {
+            transform.position = _startPosition;
+            isOpen = false;
         }
     }
 }

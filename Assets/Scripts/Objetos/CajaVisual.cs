@@ -15,23 +15,34 @@ namespace HackathonJuego
         // El servidor llamará a esta función SOLAMENTE en la compu del Jugador 1
         public void RevelarPremioExclusivo(int tipoPremio)
         {
-            // 1. Apagamos ambos por si acaso y prendemos el correcto
-            objDinero.SetActive(false);
-            objBomba.SetActive(false);
+            Debug.Log($"<color=magenta>¡Activando animación en la caja! Premio recibido: {tipoPremio}</color>");
 
-            if (tipoPremio == 1) objDinero.SetActive(true);
-            else if (tipoPremio == 2) objBomba.SetActive(true);
+            // 1. Apagamos ambos y prendemos el correcto
+            if (objDinero != null) objDinero.SetActive(false);
+            if (objBomba != null) objBomba.SetActive(false);
 
-            // 2. Disparamos los Triggers de animación
-            if (boxAnimator != null) boxAnimator.SetTrigger("Abrir");
-            if (premioAnimator != null) premioAnimator.SetTrigger("Subir");
+            if (tipoPremio == 1 && objDinero != null) objDinero.SetActive(true);
+            else if (tipoPremio == 2 && objBomba != null) objBomba.SetActive(true);
 
-            // 3. Sonido según el contenido
-            if (AudioManager.Instance != null)
+            // 2. Disparamos los Triggers
+            if (boxAnimator != null) 
             {
-                AudioManager.Instance.PlayBoxOpen();
-                if (tipoPremio == 1) AudioManager.Instance.PlayMoneyReveal();
-                else if (tipoPremio == 2) AudioManager.Instance.PlayBombReveal();
+                boxAnimator.SetTrigger("Abrir");
+                Debug.Log("Trigger 'Abrir' enviado al BoxAnimator.");
+            }
+            else 
+            {
+                Debug.LogError("El boxAnimator no está asignado en el Inspector de esta caja.");
+            }
+
+            if (premioAnimator != null) 
+            {
+                premioAnimator.SetTrigger("Subir");
+                Debug.Log("Trigger 'Subir' enviado al PremioAnimator.");
+            }
+            else 
+            {
+                Debug.LogError("El premioAnimator no está asignado en el Inspector de esta caja.");
             }
         }
     }

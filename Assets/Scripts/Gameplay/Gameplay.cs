@@ -215,7 +215,10 @@ namespace HackathonJuego
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
         public void RPC_MostrarAnimacionExclusiva([RpcTarget] PlayerRef player, int cajaIndex, int tipoPremio)
         {
+            Debug.Log($"<color=yellow>EJECUTANDO RPC EN EL CLIENTE PARA LA CAJA {cajaIndex}</color>");
+            
             GameObject cajaObj = GameObject.Find("Caja_" + cajaIndex);
+            
             if (cajaObj != null)
             {
                 CajaVisual scriptCaja = cajaObj.GetComponent<CajaVisual>();
@@ -223,6 +226,14 @@ namespace HackathonJuego
                 {
                     scriptCaja.RevelarPremioExclusivo(tipoPremio);
                 }
+                else 
+                { 
+                    Debug.LogError($"Encontré la Caja_{cajaIndex}, pero NO tiene el script CajaVisual asignado."); 
+                }
+            }
+            else 
+            { 
+                Debug.LogError($"CRÍTICO: No se encontró ningún GameObject en la escena llamado exactamente 'Caja_{cajaIndex}'"); 
             }
         }
     }

@@ -37,6 +37,9 @@ namespace HackathonJuego
             if (_runner == null || !_runner.IsRunning || _gameplay == null)
                 return;
 
+            if (_gameplay.Object == null || !_gameplay.Object.IsValid)
+                return;
+
             bool inLobby = _gameplay.State == EGameplayState.Lobby;
             SetLobbyVisible(inLobby);
 

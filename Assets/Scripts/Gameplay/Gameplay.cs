@@ -40,6 +40,8 @@ namespace HackathonJuego
         public Transform judgeBeltTarget;
         public float beltMoveDuration = 1.5f;
         public Ease beltMoveEase = Ease.InOutQuad;
+        [Tooltip("Distancia en X que se separan las cajas laterales para el Juez")]
+        public float judgeSpreadDistance = 3f;
 
         [Networked] public int CurrentRound { get; set; } = 1;
         [Networked] public int PlayerTurnIndex { get; set; } = 0;
@@ -387,6 +389,17 @@ namespace HackathonJuego
             Sequence seq = DOTween.Sequence();
             seq.AppendInterval(0.8f);
             seq.Append(boxParent.DOMove(judgeBeltTarget.position, beltMoveDuration).SetEase(beltMoveEase));
+
+            // Después de llegar al judge, separar cajas izquierda y derecha
+            seq.AppendCallback(() =>
+            {
+                Transform caja0 = boxParent.Find("Caja_0");
+                Transform caja2 = boxParent.Find("Caja_2");
+                if (caja0 != null)
+                    caja0.DOLocalMoveX(caja0.localPosition.x - judgeSpreadDistance, 0.6f).SetEase(Ease.OutBack);
+                if (caja2 != null)
+                    caja2.DOLocalMoveX(caja2.localPosition.x + judgeSpreadDistance, 0.6f).SetEase(Ease.OutBack);
+            });
 
             if (HasStateAuthority)
             {

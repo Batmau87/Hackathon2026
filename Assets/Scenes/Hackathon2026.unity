@@ -534,11 +534,11 @@ PrefabInstance:
       objectReference: {fileID: 1916052468}
     - target: {fileID: 3380659953269340248, guid: 7cd8566249702324290b69e1812ead40, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.67
+      value: -10.35
       objectReference: {fileID: 0}
     - target: {fileID: 3380659953269340248, guid: 7cd8566249702324290b69e1812ead40, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.83
+      value: 8.02
       objectReference: {fileID: 0}
     - target: {fileID: 3380659953269340248, guid: 7cd8566249702324290b69e1812ead40, type: 3}
       propertyPath: m_LocalPosition.z
@@ -675,11 +675,11 @@ PrefabInstance:
       objectReference: {fileID: 1783157054}
     - target: {fileID: 3172900289227789108, guid: 01b5c1f004177c941abeece946ecd58f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.2399986
+      value: -11.780002
       objectReference: {fileID: 0}
     - target: {fileID: 3172900289227789108, guid: 01b5c1f004177c941abeece946ecd58f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.83
+      value: 8.02
       objectReference: {fileID: 0}
     - target: {fileID: 3172900289227789108, guid: 01b5c1f004177c941abeece946ecd58f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -959,11 +959,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1143200275943993069, guid: 1cf6febd4ac1f4b44b9e6c6dfa8a3df9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.13000226
+      value: -13.1500025
       objectReference: {fileID: 0}
     - target: {fileID: 1143200275943993069, guid: 1cf6febd4ac1f4b44b9e6c6dfa8a3df9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.83
+      value: 8.02
       objectReference: {fileID: 0}
     - target: {fileID: 1143200275943993069, guid: 1cf6febd4ac1f4b44b9e6c6dfa8a3df9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2146,7 +2146,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 5c9583ad03d0710459d34bd7473fa617, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.05
+      value: 11.67
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5c9583ad03d0710459d34bd7473fa617, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2469,7 +2469,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 5c9583ad03d0710459d34bd7473fa617, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.12
+      value: 14.599999
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5c9583ad03d0710459d34bd7473fa617, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2711,6 +2711,8 @@ GameObject:
   - component: {fileID: 812623087}
   - component: {fileID: 812623085}
   - component: {fileID: 812623090}
+  - component: {fileID: 812623092}
+  - component: {fileID: 812623091}
   m_Layer: 0
   m_Name: CamaraPlayer02
   m_TagString: MainCamera
@@ -2859,6 +2861,43 @@ MonoBehaviour:
   PreferredRunner: 0
   Components: []
   _guid: 4f76e268-ebfb-4b08-
+--- !u!114 &812623091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812623084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 2126920750
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 812623092}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &812623092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812623084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37217d42df54073a8e78d97eeefa985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRoundController
+  editorSlotIndex: 2
+  editorRole: 2
+  _SlotIndex: 2
+  _Role: 2
+  _Score: 0
+  _FinalBoxIndex: 0
 --- !u!1 &866620680
 GameObject:
   m_ObjectHideFlags: 0
@@ -4453,6 +4492,8 @@ GameObject:
   - component: {fileID: 1563833273}
   - component: {fileID: 1563833271}
   - component: {fileID: 1563833276}
+  - component: {fileID: 1563833278}
+  - component: {fileID: 1563833277}
   m_Layer: 0
   m_Name: CamaraPlayer01
   m_TagString: MainCamera
@@ -4601,6 +4642,43 @@ MonoBehaviour:
   PreferredRunner: 0
   Components: []
   _guid: 29b16625-53ac-4f79-
+--- !u!114 &1563833277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563833270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 3805137081
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1563833278}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1563833278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563833270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37217d42df54073a8e78d97eeefa985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRoundController
+  editorSlotIndex: 1
+  editorRole: 1
+  _SlotIndex: 1
+  _Role: 1
+  _Score: 0
+  _FinalBoxIndex: 0
 --- !u!1 &1566947410
 GameObject:
   m_ObjectHideFlags: 0
@@ -4614,6 +4692,8 @@ GameObject:
   - component: {fileID: 1566947413}
   - component: {fileID: 1566947411}
   - component: {fileID: 1566947416}
+  - component: {fileID: 1566947418}
+  - component: {fileID: 1566947417}
   m_Layer: 0
   m_Name: CamaraPlayer03
   m_TagString: MainCamera
@@ -4762,6 +4842,43 @@ MonoBehaviour:
   PreferredRunner: 0
   Components: []
   _guid: 8e9e16f4-0239-43c6-
+--- !u!114 &1566947417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566947410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 3968423315
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1566947418}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1566947418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566947410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37217d42df54073a8e78d97eeefa985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRoundController
+  editorSlotIndex: 0
+  editorRole: 0
+  _SlotIndex: 0
+  _Role: 0
+  _Score: 0
+  _FinalBoxIndex: 0
 --- !u!1 &1604784953
 GameObject:
   m_ObjectHideFlags: 0
@@ -5359,7 +5476,7 @@ Transform:
   m_GameObject: {fileID: 1793178375}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.05, y: 1.86, z: -5.86}
+  m_LocalPosition: {x: 10.67, y: 1.86, z: -5.86}
   m_LocalScale: {x: 6.2792287, y: 2.5500674, z: 2.6222184}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -62,7 +62,7 @@ namespace HackathonJuego
             }
         }
 
-        /// <summary>Cierra la caja reproduciendo la animación de abrir en reversa.</summary>
+        /// <summary>Cierra la caja con trigger Cerrar.</summary>
         public void CerrarCaja()
         {
             if (!isOpen) return;
@@ -70,16 +70,14 @@ namespace HackathonJuego
 
             if (boxAnimator != null)
             {
-                var state = boxAnimator.GetCurrentAnimatorStateInfo(0);
-                boxAnimator.Play(state.fullPathHash, 0, state.normalizedTime);
-                boxAnimator.speed = -1f;
+                boxAnimator.speed = 1f;
+                boxAnimator.SetTrigger("Cerrar");
             }
 
             if (premioAnimator != null)
             {
-                var state = premioAnimator.GetCurrentAnimatorStateInfo(0);
-                premioAnimator.Play(state.fullPathHash, 0, state.normalizedTime);
-                premioAnimator.speed = -1f;
+                premioAnimator.speed = 1f;
+                premioAnimator.SetTrigger("Bajar");
             }
         }
 

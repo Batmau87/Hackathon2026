@@ -85,7 +85,9 @@ namespace HackathonJuego
             if (interactableObject.CompareTag("BotonConfig"))
             {
                 int option = interactableObject.name.Contains("Opcion2") ? 2 : 1;
+                Debug.Log($"[PlayerClicker] Enviando RPC_SeleccionarPaquete con opcion={option}");
                 _gameplay.RPC_SeleccionarPaquete(option);
+                // Bloquear clicks subsiguientes cambiando el estado esperado
                 return;
             }
 

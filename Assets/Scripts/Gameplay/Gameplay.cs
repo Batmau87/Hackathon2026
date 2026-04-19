@@ -66,16 +66,32 @@ namespace HackathonJuego
         [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
         public void RPC_SeleccionarPaquete(int opcionSeleccionada, RpcInfo info = default)
         {
-            if (State != EGameplayState.P0_Config) return;
+            Debug.Log($"<color=cyan>[Gameplay] RPC_SeleccionarPaquete recibido. opcion={opcionSeleccionada}, source={info.Source}, State={State}</color>");
 
-            if (PlayerData.TryGet(info.Source, out var data) && data.StationIndex == 0)
+            if (State != EGameplayState.P0_Config)
             {
-                if (opcionSeleccionada == 1) { DineroEnJuego = 2; BombasEnJuego = 1; }
-                else if (opcionSeleccionada == 2) { DineroEnJuego = 1; BombasEnJuego = 2; }
-
-                MezclarCajas();
-                RPC_MoverCajasAObserver();
+                Debug.Log($"[Gameplay] IGNORADO: State={State}, esperaba P0_Config");
+                return;
             }
+
+            if (!PlayerData.TryGet(info.Source, out var data))
+            {
+                Debug.LogError($"[Gameplay] No se encontró PlayerData para {info.Source}");
+                return;
+            }
+
+            if (data.StationIndex != 0)
+            {
+                Debug.Log($"[Gameplay] IGNORADO: StationIndex={data.StationIndex}, esperaba 0");
+                return;
+            }
+
+            if (opcionSeleccionada == 1) { DineroEnJuego = 2; BombasEnJuego = 1; }
+            else if (opcionSeleccionada == 2) { DineroEnJuego = 1; BombasEnJuego = 2; }
+
+            MezclarCajas();
+            Debug.Log($"<color=green>[Gameplay] Cajas mezcladas. Llamando RPC_MoverCajasAObserver...</color>");
+            RPC_MoverCajasAObserver();
         }
 
         // --- RPC: CONFIGURAR CAJAS (usado por ArchitectPanel y PlayerClicker) ---
@@ -109,14 +125,16 @@ namespace HackathonJuego
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
         public void RPC_MoverCajasAObserver()
         {
+            Debug.Log($"<color=yellow>[Gameplay] RPC_MoverCajasAObserver ejecutado. boxParent={boxParent != null}, target={observerBeltTarget != null}, HasAuth={HasStateAuthority}</color>");
+
             if (boxParent == null || observerBeltTarget == null)
             {
-                Debug.LogWarning("boxParent u observerBeltTarget no asignados.");
-                // Avanzar estado de todas formas si falta config
+                Debug.LogWarning("[Gameplay] boxParent u observerBeltTarget no asignados. Avanzando estado directamente.");
                 if (HasStateAuthority)
                 {
                     State = EGameplayState.P1_Inspect;
                     PlayerTurnIndex = 1;
+                    Debug.Log($"<color=green>[Gameplay] Estado cambiado a P1_Inspect (sin animación)</color>");
                 }
                 return;
             }
@@ -125,10 +143,12 @@ namespace HackathonJuego
                 .SetEase(beltMoveEase)
                 .OnComplete(() =>
                 {
+                    Debug.Log($"<color=green>[Gameplay] DOTween completado. HasAuth={HasStateAuthority}</color>");
                     if (HasStateAuthority)
                     {
                         State = EGameplayState.P1_Inspect;
                         PlayerTurnIndex = 1;
+                        Debug.Log($"<color=green>[Gameplay] Estado cambiado a P1_Inspect</color>");
                     }
                 });
         }

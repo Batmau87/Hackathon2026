@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using HackathonJuego;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 public class MauSceneRoundDebugUI : MonoBehaviour
 {
-    private readonly List<BoxAssignment[]> _distributionPermutations = new();
+    private readonly List<int[]> _distributionPermutations = new();
 
-    private GameRoundManager _roundManager;
+    private Gameplay _gameplay;
 
     private void Awake()
     {
@@ -15,44 +16,35 @@ public class MauSceneRoundDebugUI : MonoBehaviour
 
     private void OnGUI()
     {
-        ResolveManager();
+        ResolveGameplay();
 
-        if (_roundManager == null || _roundManager.Runner == null || !_roundManager.Runner.IsRunning)
+        if (_gameplay == null || _gameplay.Runner == null || !_gameplay.Runner.IsRunning)
         {
-            DrawMessage("Inicia una sesion desde Startup, elige MauScene y entra con hasta 3 jugadores para probar la ronda.");
+            DrawMessage("Inicia una sesion Fusion para probar el flujo de Gameplay.");
             return;
         }
 
-        PlayerRoundController localController = _roundManager.GetPlayerControllerByPlayerRef(_roundManager.Runner.LocalPlayer);
+        int localStation = _gameplay.GetLocalStationIndex();
 
         GUILayout.BeginArea(new Rect(16f, 16f, 460f, 900f), GUI.skin.box);
-        GUILayout.Label($"Local Player: {_roundManager.Runner.LocalPlayer}");
-        GUILayout.Label($"Phase: {_roundManager.Phase}");
-        GUILayout.Label($"Config: {_roundManager.ChosenConfig}");
-        GUILayout.Label($"Round Sequence: {_roundManager.RoundSequence}");
-        GUILayout.Label($"Players Assigned: {_roundManager.GetAssignedPlayerCount()} / {_roundManager.RequiredPlayerCount}");
+        GUILayout.Label($"Local Player: {_gameplay.Runner.LocalPlayer}");
+        GUILayout.Label($"State: {_gameplay.State}");
+        GUILayout.Label($"Round: {_gameplay.CurrentRound}");
+        GUILayout.Label($"Turn Index: {_gameplay.PlayerTurnIndex}");
+        GUILayout.Label($"Dinero / Bombas: {_gameplay.DineroEnJuego} / {_gameplay.BombasEnJuego}");
+        GUILayout.Label($"Caja abierta: {_gameplay.OpenedBoxIndex}");
+        GUILayout.Label($"Timer juez: {_gameplay.JudgeTimer:0.0}");
 
-        if (localController == null)
+        if (localStation < 0)
         {
-            GUILayout.Label("Todavia no tienes un slot asignado. Espera a que el host te registre.");
-            DrawScoreboard();
-            GUILayout.EndArea();
-            return;
+            GUILayout.Label("Todavia no tienes una estacion asignada.");
         }
-
-        GUILayout.Space(8f);
-        GUILayout.Label($"Tu rol: {localController.Role}");
-        GUILayout.Label($"Tu slot: {localController.SlotIndex}");
-        GUILayout.Label($"Tu score: {localController.Score}");
-        GUILayout.Label($"Final box index: {localController.FinalBoxIndex}");
-
-        if (localController.HasPrivateInspectionResult)
+        else
         {
-            GUILayout.Label($"Inspeccion privada: Caja {localController.PrivateInspectedBoxIndex} = {localController.PrivateInspectedContent}");
+            GUILayout.Space(8f);
+            GUILayout.Label($"Tu estacion: {GetStationLabel(localStation)} ({localStation})");
+            DrawRoleActions(localStation);
         }
-
-        GUILayout.Space(8f);
-        DrawRoleActions(localController);
 
         GUILayout.Space(12f);
         DrawScoreboard();
@@ -60,59 +52,66 @@ public class MauSceneRoundDebugUI : MonoBehaviour
         GUILayout.EndArea();
     }
 
-    private void DrawRoleActions(PlayerRoundController localController)
+    private void DrawRoleActions(int localStation)
     {
-        if (localController.Role == PlayerRole.Configurator && _roundManager.Phase == RoundPhase.WaitingForConfig)
+        if (localStation == 0 && _gameplay.State == EGameplayState.P0_Config)
         {
             GUILayout.Label("Acciones del configurador");
 
             if (GUILayout.Button("Elegir 2 Money / 1 Bomb"))
-                localController.ChooseRoundConfiguration(RoundConfigType.TwoMoneyOneBomb);
+                _gameplay.RPC_SeleccionarPaquete(1);
 
             if (GUILayout.Button("Elegir 1 Money / 2 Bomb"))
-                localController.ChooseRoundConfiguration(RoundConfigType.OneMoneyTwoBomb);
+                _gameplay.RPC_SeleccionarPaquete(2);
         }
 
-        if (localController.Role == PlayerRole.Inspector && _roundManager.Phase == RoundPhase.Inspecting)
+        if (localStation == 1 && _gameplay.State == EGameplayState.P1_Inspect)
         {
             GUILayout.Label("Acciones del inspector");
 
             for (int boxIndex = 0; boxIndex < 3; boxIndex++)
             {
                 if (GUILayout.Button($"Inspeccionar caja {boxIndex}"))
-                    localController.InspectBox(boxIndex);
+                    _gameplay.RPC_InspeccionarCaja(boxIndex);
             }
         }
 
-        if (localController.Role == PlayerRole.Distributor && _roundManager.Phase == RoundPhase.Distributing)
+        if (localStation == 1 && _gameplay.State == EGameplayState.P1_Pass)
+        {
+            GUILayout.Label("Acciones del inspector");
+
+            if (GUILayout.Button("Pasar cajas al distribuidor"))
+                _gameplay.RPC_PasarCajas();
+        }
+
+        if (localStation == 2 && _gameplay.State == EGameplayState.P2_Distribute)
         {
             GUILayout.Label("Acciones del distribuidor");
             GUILayout.Label("Cada boton representa una permutacion completa de reparto.");
 
             for (int i = 0; i < _distributionPermutations.Count; i++)
             {
-                BoxAssignment[] permutation = _distributionPermutations[i];
-                string label = $"P0<-{permutation[0].BoxIndex} | P1<-{permutation[1].BoxIndex} | P2<-{permutation[2].BoxIndex}";
+                int[] permutation = _distributionPermutations[i];
+                string label = $"P0<-{permutation[0]} | P1<-{permutation[1]} | P2<-{permutation[2]}";
 
                 if (GUILayout.Button(label))
-                    localController.SubmitDistribution(permutation[0], permutation[1], permutation[2]);
+                {
+                    for (int stationIndex = 0; stationIndex < permutation.Length; stationIndex++)
+                        _gameplay.RPC_AsignarCaja(permutation[stationIndex], stationIndex);
+                }
             }
         }
     }
 
     private void DrawScoreboard()
     {
-        GUILayout.Label("Slots");
+        GUILayout.Label("Jugadores / estaciones");
 
-        for (int slotIndex = 0; slotIndex < 3; slotIndex++)
+        foreach (var pair in _gameplay.PlayerData)
         {
-            PlayerRoundController controller = _roundManager.GetPlayerControllerBySlot(slotIndex);
-
-            if (controller == null)
-                continue;
-
+            PlayerData data = pair.Value;
             GUILayout.Label(
-                $"Slot {slotIndex} | Role {controller.Role} | Player {controller.AssignedPlayer} | Score {controller.Score} | Box {controller.FinalBoxIndex}");
+                $"Player {pair.Key} | Connected {data.IsConnected} | Ready {data.IsReady} | Station {data.StationIndex} | Score {data.Score}");
         }
     }
 
@@ -123,11 +122,11 @@ public class MauSceneRoundDebugUI : MonoBehaviour
 
         for (int boxIndex = 0; boxIndex < 3; boxIndex++)
         {
-            NetworkBoxState box = _roundManager.GetBoxState(boxIndex);
-            string visibleContent = box.IsRevealed ? box.Content.ToString() : "Hidden";
+            bool revealActive = _gameplay.State == EGameplayState.Reveal || _gameplay.State == EGameplayState.Finished;
+            string visibleContent = revealActive ? _gameplay.BoxContents[boxIndex].ToString() : "Hidden";
 
             GUILayout.Label(
-                $"Caja {boxIndex} | OwnerSlot {box.CurrentOwnerSlot} | Inspected {box.WasInspected} | Final {box.IsFinallyAssigned} | Reveal {box.IsRevealed} | Content {visibleContent}");
+                $"Caja {boxIndex} | AssignedStation {_gameplay.BoxAssignments[boxIndex]} | Opened {_gameplay.OpenedBoxIndex == boxIndex} | Content {visibleContent}");
         }
     }
 
@@ -136,14 +135,6 @@ public class MauSceneRoundDebugUI : MonoBehaviour
         GUILayout.BeginArea(new Rect(16f, 16f, 460f, 80f), GUI.skin.box);
         GUILayout.Label(message);
         GUILayout.EndArea();
-    }
-
-    private void ResolveManager()
-    {
-        if (_roundManager != null)
-            return;
-
-        _roundManager = FindFirstObjectByType<GameRoundManager>();
     }
 
     private void BuildPermutations()
@@ -162,12 +153,26 @@ public class MauSceneRoundDebugUI : MonoBehaviour
         for (int i = 0; i < permutations.Length; i++)
         {
             int[] permutation = permutations[i];
-            _distributionPermutations.Add(new[]
-            {
-                new BoxAssignment(permutation[0], 0),
-                new BoxAssignment(permutation[1], 1),
-                new BoxAssignment(permutation[2], 2)
-            });
+            _distributionPermutations.Add(new[] { permutation[0], permutation[1], permutation[2] });
+        }
+    }
+
+    private void ResolveGameplay()
+    {
+        if (_gameplay != null)
+            return;
+
+        _gameplay = FindFirstObjectByType<Gameplay>();
+    }
+
+    private static string GetStationLabel(int stationIndex)
+    {
+        switch (stationIndex)
+        {
+            case 0: return "Configurador";
+            case 1: return "Inspector";
+            case 2: return "Distribuidor";
+            default: return "Sin estacion";
         }
     }
 }

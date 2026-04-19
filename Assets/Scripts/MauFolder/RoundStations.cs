@@ -1,3 +1,4 @@
+using HackathonJuego;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -21,20 +22,20 @@ public class RoundStations : MonoBehaviour
     [SerializeField] private Vector3 positionOffset;
     [SerializeField] private Vector3 rotationOffsetEuler;
 
-    private GameRoundManager _roundManager;
+    private Gameplay _gameplay;
     private Quaternion _rotationOffset;
 
     private void Awake()
     {
         _rotationOffset = Quaternion.Euler(rotationOffsetEuler);
-        ResolveRoundManager();
+        ResolveGameplay();
     }
 
     private void Update()
     {
-        ResolveRoundManager();
+        ResolveGameplay();
 
-        if (_roundManager == null)
+        if (_gameplay == null || !_gameplay.isActiveAndEnabled)
             return;
 
         for (int boxIndex = 0; boxIndex < boxTransforms.Length; boxIndex++)
@@ -43,8 +44,7 @@ public class RoundStations : MonoBehaviour
             if (boxTransform == null)
                 continue;
 
-            NetworkBoxState boxState = _roundManager.GetBoxState(boxIndex);
-            Transform target = GetTargetForBox(boxIndex, _roundManager.Phase, boxState.CurrentOwnerSlot);
+            Transform target = GetTargetForBox(boxIndex);
 
             if (target == null)
                 continue;
@@ -64,30 +64,6 @@ public class RoundStations : MonoBehaviour
         }
     }
 
-    public Transform GetTargetForBox(int boxIndex, RoundPhase phase, int finalOwnerSlot)
-    {
-        switch (phase)
-        {
-            case RoundPhase.WaitingForConfig:
-                return GetSlot(configuratorSlots, boxIndex);
-
-            case RoundPhase.ConfigChosen:
-            case RoundPhase.Inspecting:
-                return GetSlot(inspectorSlots, boxIndex);
-
-            case RoundPhase.PassingToDistributor:
-            case RoundPhase.Distributing:
-                return GetSlot(distributorSlots, boxIndex);
-
-            case RoundPhase.Reveal:
-            case RoundPhase.RoundFinished:
-                return GetSlotByOwner(finalOwnerSlot, boxIndex);
-
-            default:
-                return GetSlot(configuratorSlots, boxIndex);
-        }
-    }
-
     private Transform GetSlotByOwner(int ownerSlot, int boxIndex)
     {
         switch (ownerSlot)
@@ -99,6 +75,38 @@ public class RoundStations : MonoBehaviour
         }
     }
 
+    private Transform GetTargetForBox(int boxIndex)
+    {
+        switch (_gameplay.State)
+        {
+            case EGameplayState.Lobby:
+            case EGameplayState.P0_Config:
+                return GetSlot(configuratorSlots, boxIndex);
+
+            case EGameplayState.P1_Inspect:
+            case EGameplayState.P1_Pass:
+                return GetSlot(inspectorSlots, boxIndex);
+
+            case EGameplayState.P2_Distribute:
+                int assignedStation = _gameplay.BoxAssignments[boxIndex];
+                if (assignedStation >= 0)
+                    return GetSlotByOwner(assignedStation, boxIndex);
+
+                return GetSlot(distributorSlots, boxIndex);
+
+            case EGameplayState.Reveal:
+            case EGameplayState.Finished:
+                int ownerSlot = _gameplay.BoxAssignments[boxIndex];
+                if (ownerSlot < 0)
+                    return GetSlot(distributorSlots, boxIndex);
+
+                return GetSlotByOwner(ownerSlot, boxIndex);
+
+            default:
+                return GetSlot(configuratorSlots, boxIndex);
+        }
+    }
+
     private static Transform GetSlot(Transform[] slots, int boxIndex)
     {
         if (slots == null || boxIndex < 0 || boxIndex >= slots.Length)
@@ -107,11 +115,11 @@ public class RoundStations : MonoBehaviour
         return slots[boxIndex];
     }
 
-    private void ResolveRoundManager()
+    private void ResolveGameplay()
     {
-        if (_roundManager != null)
+        if (_gameplay != null)
             return;
 
-        _roundManager = FindFirstObjectByType<GameRoundManager>();
+        _gameplay = FindFirstObjectByType<Gameplay>();
     }
 }

@@ -22,13 +22,18 @@ public class GameRoundManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private readonly List<PlayerRoundController> _playerControllers = new(PlayerCount);
 
+    public int RequiredPlayerCount => PlayerCount;
+
     public override void Spawned()
     {
         Runner.AddCallbacks(this);
         CachePlayerControllers();
 
         if (Object.HasStateAuthority)
+        {
+            SyncAssignedPlayersWithRunner();
             ResetRoundState(resetScores: false);
+        }
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
@@ -42,6 +47,7 @@ public class GameRoundManager : NetworkBehaviour, INetworkRunnerCallbacks
             return;
 
         CachePlayerControllers();
+        SyncAssignedPlayersWithRunner();
 
         switch (Phase)
         {
@@ -121,6 +127,20 @@ public class GameRoundManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
 
         return null;
+    }
+
+    public int GetAssignedPlayerCount()
+    {
+        CachePlayerControllers();
+
+        int assignedCount = 0;
+        for (int i = 0; i < _playerControllers.Count; i++)
+        {
+            if (_playerControllers[i].AssignedPlayer != PlayerRef.None)
+                assignedCount++;
+        }
+
+        return assignedCount;
     }
 
     public NetworkBoxState GetBoxState(int boxIndex)
@@ -397,18 +417,7 @@ public class GameRoundManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private bool HasAllPlayersAssigned()
     {
-        CachePlayerControllers();
-
-        if (_playerControllers.Count != PlayerCount)
-            return false;
-
-        for (int i = 0; i < _playerControllers.Count; i++)
-        {
-            if (_playerControllers[i].AssignedPlayer == PlayerRef.None)
-                return false;
-        }
-
-        return true;
+        return GetAssignedPlayerCount() == PlayerCount;
     }
 
     private bool IsPlayerInRole(PlayerRef player, PlayerRole role)
@@ -429,6 +438,50 @@ public class GameRoundManager : NetworkBehaviour, INetworkRunnerCallbacks
 
         for (int i = 0; i < foundControllers.Length; i++)
             _playerControllers.Add(foundControllers[i]);
+    }
+
+    private void SyncAssignedPlayersWithRunner()
+    {
+        CachePlayerControllers();
+
+        if (_playerControllers.Count == 0)
+            return;
+
+        List<PlayerRef> activePlayers = new(PlayerCount);
+        foreach (PlayerRef player in Runner.ActivePlayers)
+            activePlayers.Add(player);
+
+        activePlayers.Sort((left, right) => left.RawEncoded.CompareTo(right.RawEncoded));
+
+        bool rosterChanged = false;
+
+        for (int i = 0; i < _playerControllers.Count; i++)
+        {
+            PlayerRoundController controller = _playerControllers[i];
+
+            if (controller.AssignedPlayer == PlayerRef.None)
+                continue;
+
+            if (activePlayers.Contains(controller.AssignedPlayer))
+                continue;
+
+            controller.AuthorityClearAssignedPlayer();
+            controller.AuthorityResetRoundState();
+            rosterChanged = true;
+        }
+
+        for (int i = 0; i < activePlayers.Count; i++)
+        {
+            PlayerRef activePlayer = activePlayers[i];
+            if (GetPlayerControllerByPlayerRef(activePlayer) != null)
+                continue;
+
+            AssignPlayerToFirstFreeSlot(activePlayer);
+            rosterChanged = true;
+        }
+
+        if (rosterChanged && Phase != RoundPhase.WaitingForConfig)
+            ResetRoundState(resetScores: false);
     }
 
     private void AssignPlayerToFirstFreeSlot(PlayerRef player)
@@ -456,6 +509,10 @@ public class GameRoundManager : NetworkBehaviour, INetworkRunnerCallbacks
 
             _playerControllers[i].AuthorityClearAssignedPlayer();
             _playerControllers[i].AuthorityResetRoundState();
+
+            if (Phase != RoundPhase.WaitingForConfig)
+                ResetRoundState(resetScores: false);
+
             return;
         }
     }

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ca99e6951cf59409d6a99c416cbcbd, type: 3}
+  m_Name: AudioData Gameplay
+  m_EditorClassIdentifier: Assembly-CSharp::HackathonJuego.SceneAudioData
+  backgroundMusic:
+  - {fileID: 8300000, guid: 5d719acf59a5d9d4c9b9791d92a4e5ea, type: 3}
+  - {fileID: 8300000, guid: 0a58bccedd7c8424bb8421399a11b135, type: 3}
+  musicVolume: 0.5
+  loopMusic: 1
+  fadeInOnStart: 1
+  fadeInDuration: 1.5
+  uiHover: {fileID: 8300000, guid: 943fef0dc65662447b281e88e7fc6498, type: 3}
+  uiClick: {fileID: 8300000, guid: 1d040e2f7fe0d9f46a11103ca538dc33, type: 3}
+  uiBack: {fileID: 8300000, guid: 9698a8caa304b6c4a975f43effc486cd, type: 3}
+  uiVolume: 0.7
+  boxOpen: {fileID: 0}
+  boxDrop: {fileID: 0}
+  boxSlide: {fileID: 0}
+  moneyReveal: {fileID: 8300000, guid: 6d845693c1fb7d5459f6631c9d870a00, type: 3}
+  bombReveal: {fileID: 8300000, guid: 4b2824c37ce5aba4ab95652877f0d68b, type: 3}
+  roundStart: {fileID: 0}
+  roundEnd: {fileID: 0}
+  playerReady: {fileID: 0}
+  timerTick: {fileID: 0}
+  victory: {fileID: 8300000, guid: b8244feaad8a7114b9dfdd389be98974, type: 3}
+  defeat: {fileID: 8300000, guid: a369eaf280c45f647863ca295b998d08, type: 3}
+  sfxVolume: 0.8
+  ambientLoop: {fileID: 0}
+  ambientVolume: 0.3

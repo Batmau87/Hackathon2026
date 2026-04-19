@@ -25,6 +25,14 @@ namespace HackathonJuego
             // 2. Disparamos los Triggers de animación
             if (boxAnimator != null) boxAnimator.SetTrigger("Abrir");
             if (premioAnimator != null) premioAnimator.SetTrigger("Subir");
+
+            // 3. Sonido según el contenido
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayBoxOpen();
+                if (tipoPremio == 1) AudioManager.Instance.PlayMoneyReveal();
+                else if (tipoPremio == 2) AudioManager.Instance.PlayBombReveal();
+            }
         }
     }
 }

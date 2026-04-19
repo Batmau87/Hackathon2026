@@ -770,8 +770,10 @@ namespace Fusion.Menu {
 
       IsShowing = false;
 
-      foreach (var p in _plugins) {
-        p.Hide(this);
+      if (_plugins != null) {
+        foreach (var p in _plugins) {
+          if (p != null) p.Hide(this);
+        }
       }
 
       gameObject.SetActive(false);
@@ -792,8 +794,10 @@ namespace Fusion.Menu {
 
       IsShowing = true;
 
-      foreach (var p in _plugins) {
-        p.Show(this);
+      if (_plugins != null) {
+        foreach (var p in _plugins) {
+          if (p != null) p.Show(this);
+        }
       }
     }
 

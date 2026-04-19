@@ -198,6 +198,23 @@ MonoBehaviour:
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
+--- !u!1 &54346034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6879464363102449989, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+  m_PrefabInstance: {fileID: 1130466487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &54346039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54346034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630caf4569164b743b7c3320927bd124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HackathonJuego.UIAudioTrigger
 --- !u!1 &140595866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,6 +1999,23 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6083080292339467788, guid: 6306d110cd4258d4d82305268fcb8ba6, type: 3}
   m_PrefabInstance: {fileID: 433604024}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &443173265 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7180008671296394876, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+  m_PrefabInstance: {fileID: 1130466487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &443173272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443173265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630caf4569164b743b7c3320927bd124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HackathonJuego.UIAudioTrigger
 --- !u!1001 &503878521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2098,6 +2132,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 8.8
       objectReference: {fileID: 0}
+    - target: {fileID: 3987285704587786522, guid: 3248a6e35ff26a14ca264ee7dc923828, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 089c949f367c4c94a8c206cbf656190b, type: 3}
     - target: {fileID: 4614852916902857602, guid: 3248a6e35ff26a14ca264ee7dc923828, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2426,6 +2464,55 @@ MonoBehaviour:
   Components:
   - {fileID: 766733039}
   _guid: 003b6624-d801-4301-
+--- !u!1 &889520322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 889520323}
+  - component: {fileID: 889520324}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &889520323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889520322}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.34733, y: -0, z: 26.85592}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &889520324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889520322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ee38513b24c904080d4d3ac2c85143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HackathonJuego.AudioManager
+  menuAudio: {fileID: 11400000, guid: 183ab7bc4013b3c49a81cca17fd8e8be, type: 2}
+  gameplayAudio: {fileID: 11400000, guid: 917bc8f69c723954a84a8209c1ccccb2, type: 2}
+  masterVolume: 1
+  musicMasterVolume: 1
+  sfxMasterVolume: 1
 --- !u!114 &927757755 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8359228864561869452, guid: 5c5ce3291321b4b47b1c332528ecd3db, type: 3}
@@ -2437,6 +2524,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19984b1480c0db43b5a17ab93f24de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1033272828 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7054374929305195901, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+  m_PrefabInstance: {fileID: 1130466487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1033272834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033272828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630caf4569164b743b7c3320927bd124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HackathonJuego.UIAudioTrigger
 --- !u!1001 &1130466487
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2652,10 +2756,22 @@ PrefabInstance:
     - target: {fileID: 2813800389638923158, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7aff9a32d8a70f744ba76e4c411448b9, type: 3}
+      objectReference: {fileID: 21300000, guid: 089c949f367c4c94a8c206cbf656190b, type: 3}
     - target: {fileID: 2813800389638923158, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
       propertyPath: m_Color.a
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2813800389638923158, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2813800389638923158, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2813800389638923158, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2830410355349546376, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -2668,7 +2784,7 @@ PrefabInstance:
     - target: {fileID: 3290695928758455305, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 981a6afbc3c2fb147ae37cc7e7f0d1bc, type: 3}
+      objectReference: {fileID: 21300000, guid: d3836dff7b9a42d4cbc4676fee2f5501, type: 3}
     - target: {fileID: 3640704231426908374, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
       propertyPath: m_Color.a
       value: 0
@@ -2821,9 +2937,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -980
       objectReference: {fileID: 0}
+    - target: {fileID: 6868863116901936318, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 089c949f367c4c94a8c206cbf656190b, type: 3}
     - target: {fileID: 6883745676662680407, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 6884497948055119067, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 6884497948055119067, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 7054374929305195901, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
       propertyPath: m_IsActive
@@ -3050,7 +3178,22 @@ PrefabInstance:
     - {fileID: 5772756510334546723, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
     - {fileID: 6002518076505399073, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7180008671296394876, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 443173272}
+    - targetCorrespondingSourceObject: {fileID: 507997860794622265, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1918642678}
+    - targetCorrespondingSourceObject: {fileID: 7054374929305195901, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1033272834}
+    - targetCorrespondingSourceObject: {fileID: 6879464363102449989, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 54346039}
+    - targetCorrespondingSourceObject: {fileID: 8515816952263234876, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1939938504}
   m_SourcePrefab: {fileID: 100100000, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
 --- !u!224 &1130466488 stripped
 RectTransform:
@@ -3443,6 +3586,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70873f49129680c48914f3a2a12198a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1918642671 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 507997860794622265, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+  m_PrefabInstance: {fileID: 1130466487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1918642678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918642671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630caf4569164b743b7c3320927bd124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HackathonJuego.UIAudioTrigger
+--- !u!1 &1939938497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8515816952263234876, guid: efcf2890011c3354e820f68ced5d26dc, type: 3}
+  m_PrefabInstance: {fileID: 1130466487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1939938504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939938497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630caf4569164b743b7c3320927bd124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HackathonJuego.UIAudioTrigger
 --- !u!1 &1941170333
 GameObject:
   m_ObjectHideFlags: 0
@@ -3529,10 +3706,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64536d708b3bd4741a37dbfe0381a252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2137881847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2137881848}
+  m_Layer: 0
+  m_Name: -----------------------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2137881848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137881847}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.34733, y: -0, z: 26.85592}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 889520323}
+  - {fileID: 2137881848}
   - {fileID: 1205362943}
   - {fileID: 1685453857}
   - {fileID: 140595871}

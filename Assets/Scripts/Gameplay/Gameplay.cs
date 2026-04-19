@@ -373,13 +373,16 @@ namespace HackathonJuego
             }
         }
 
+        // Ponemos RpcTargets.All, pero el [RpcTarget] hace que solo se ejecute en el cliente del Jugador 1
         [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
         public void RPC_MostrarAnimacionExclusiva([RpcTarget] PlayerRef player, int cajaIndex, int tipoPremio)
         {
-            Debug.Log($"<color=yellow>EJECUTANDO RPC EN EL CLIENTE PARA LA CAJA {cajaIndex}</color>");
-            
+            // 1. EL TEXTO GIGANTE EN CONSOLA QUE NOS SALVA LA VIDA
+            string nombrePremio = tipoPremio == 1 ? "DINERO (Puntos Seguros)" : "BOMBA (Cero Puntos)";
+            Debug.Log($"<color=cyan><size=15><b>¡REVISASTE LA CAJA {cajaIndex}! ADENTRO HAY: {nombrePremio}</b></size></color>");
+
+            // 2. Intentamos el código visual por si acaso (no importa si falla por ahora)
             GameObject cajaObj = GameObject.Find("Caja_" + cajaIndex);
-            
             if (cajaObj != null)
             {
                 CajaVisual scriptCaja = cajaObj.GetComponent<CajaVisual>();
@@ -387,14 +390,6 @@ namespace HackathonJuego
                 {
                     scriptCaja.RevelarPremioExclusivo(tipoPremio);
                 }
-                else 
-                { 
-                    Debug.LogError($"Encontré la Caja_{cajaIndex}, pero NO tiene el script CajaVisual asignado."); 
-                }
-            }
-            else 
-            { 
-                Debug.LogError($"CRÍTICO: No se encontró ningún GameObject en la escena llamado exactamente 'Caja_{cajaIndex}'"); 
             }
         }
     }

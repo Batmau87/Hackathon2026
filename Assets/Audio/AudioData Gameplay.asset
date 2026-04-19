@@ -15,7 +15,7 @@ MonoBehaviour:
   backgroundMusic:
   - {fileID: 8300000, guid: 5d719acf59a5d9d4c9b9791d92a4e5ea, type: 3}
   - {fileID: 8300000, guid: 0a58bccedd7c8424bb8421399a11b135, type: 3}
-  musicVolume: 0.5
+  musicVolume: 0.3
   loopMusic: 1
   fadeInOnStart: 1
   fadeInDuration: 1.5

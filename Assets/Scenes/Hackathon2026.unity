@@ -483,6 +483,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 670036416182214698, guid: 7cd8566249702324290b69e1812ead40, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1625370228367549466, guid: 7cd8566249702324290b69e1812ead40, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -684,6 +688,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3225569908969644911, guid: 01b5c1f004177c941abeece946ecd58f, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3483021160761824823, guid: 01b5c1f004177c941abeece946ecd58f, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -867,6 +875,10 @@ PrefabInstance:
       propertyPath: premioAnimator
       value: 
       objectReference: {fileID: 952406897543432169}
+    - target: {fileID: 8584692854566693860, guid: 1cf6febd4ac1f4b44b9e6c6dfa8a3df9, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9182716253460856411, guid: 1cf6febd4ac1f4b44b9e6c6dfa8a3df9, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -3599,7 +3611,7 @@ MonoBehaviour:
   sessionCodeText: {fileID: 6350346924748728278}
   playerCountText: {fileID: 1068231440220518595}
   statusText: {fileID: 5619273237647421897}
-  startGameButton: {fileID: 6737853129601136614}
+  startGameButton: {fileID: 1765078086393838334}
   readyButton: {fileID: 6737853129601136614}
 --- !u!114 &1068231440220518595
 MonoBehaviour:
@@ -4043,6 +4055,10 @@ MonoBehaviour:
   _BombasEnJuego: 0
   _BoxContents: 
   _OpenedBoxIndex: -1
+  _BoxAssignments: 
+  _RoundScores: 
+  _JudgeTimer: 0
+  judgeTimerDuration: 30
   _PlayerData:
     _items: []
   _State: 0

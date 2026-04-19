@@ -1,13 +1,13 @@
 using Fusion;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 namespace HackathonJuego
 {
     public class InGameLobbyUI : MonoBehaviour
     {
         [Header("Paneles")]
-        public GameObject mainLobbyPanel; 
+        public GameObject mainLobbyPanel;
 
         [Header("Textos")]
         public TextMeshProUGUI sessionCodeText;
@@ -20,83 +20,121 @@ namespace HackathonJuego
 
         private Gameplay _gameplay;
         private NetworkRunner _runner;
-        private bool _lobbyApagado = false;
 
         private void Start()
         {
-            if (mainLobbyPanel != null) mainLobbyPanel.SetActive(true);
-            if (startGameButton != null) startGameButton.SetActive(false);
+            SetLobbyVisible(true);
         }
 
         private void Update()
         {
-            // FindFirstObjectByType es perfecto para Unity 6
-            if (_runner == null) _runner = FindFirstObjectByType<NetworkRunner>();
-            if (_gameplay == null) _gameplay = FindFirstObjectByType<Gameplay>();
+            if (_runner == null)
+                _runner = FindFirstObjectByType<NetworkRunner>();
 
-            if (_runner == null || _gameplay == null || _gameplay.Object == null || !_gameplay.Object.IsValid) return;
+            if (_gameplay == null)
+                _gameplay = FindFirstObjectByType<Gameplay>();
 
-            // 1. SI EL JUEGO YA EMPEZÓ (Cualquier estado que NO sea Lobby)
-            if (_gameplay.State != EGameplayState.Lobby)
+            if (_runner == null || !_runner.IsRunning || _gameplay == null)
+                return;
+
+            bool inLobby = _gameplay.State == EGameplayState.Lobby;
+            SetLobbyVisible(inLobby);
+
+            if (!inLobby)
             {
-                if (!_lobbyApagado)
-                {
-                    if (mainLobbyPanel != null) mainLobbyPanel.SetActive(false);
-                    
-                    // Aseguramos que el cursor esté visible para que puedan interactuar con las cajas
-                    Cursor.lockState = CursorLockMode.None;
-                    Cursor.visible = true;
-                    
-                    _lobbyApagado = true;
-                }
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 return;
             }
 
-            // 2. ACTUALIZACIÓN DE TEXTOS Y BOTONES (Fase de Lobby)
-            if (_runner.IsRunning && _runner.SessionInfo != null && _runner.SessionInfo.IsValid)
+            int connectedPlayers = 0;
+            bool allReady = true;
+
+            foreach (var pair in _gameplay.PlayerData)
             {
-                if (sessionCodeText != null) sessionCodeText.text = $"CÓDIGO: {_runner.SessionInfo.Name}";
+                PlayerData data = pair.Value;
+                if (!data.IsConnected)
+                    continue;
 
-                int conectados = 0;
-                bool todosEstanListos = true;
+                connectedPlayers++;
+                if (!data.IsReady)
+                    allReady = false;
+            }
 
-                foreach (var kvp in _gameplay.PlayerData)
+            if (sessionCodeText != null)
+            {
+                string sessionName = (_runner.SessionInfo != null && _runner.SessionInfo.IsValid)
+                    ? _runner.SessionInfo.Name
+                    : "Conectando...";
+
+                sessionCodeText.text = $"CODIGO: {sessionName}";
+            }
+
+            if (playerCountText != null)
+                playerCountText.text = $"Jugadores: {connectedPlayers} / 3";
+
+            if (statusText != null)
+            {
+                if (_gameplay.PlayerData.TryGet(_runner.LocalPlayer, out var myData))
                 {
-                    if (kvp.Value.IsConnected)
-                    {
-                        conectados++;
-                        if (!kvp.Value.IsReady) todosEstanListos = false;
-                    }
+                    string readyState = myData.IsReady
+                        ? "<color=green>LISTO</color>"
+                        : "<color=yellow>ESPERANDO...</color>";
+
+                    statusText.text = $"Estado: {readyState}";
                 }
-
-                if (playerCountText != null) playerCountText.text = $"Jugadores: {conectados} / 3";
-
-                if (statusText != null && _gameplay.PlayerData.TryGet(_runner.LocalPlayer, out var myData))
+                else
                 {
-                    string estadoReady = myData.IsReady ? "<color=green>LISTO</color>" : "<color=yellow>ESPERANDO...</color>";
-                    statusText.text = $"Estado: {estadoReady}";
+                    statusText.text = "Estado: <color=yellow>REGISTRANDO JUGADOR...</color>";
                 }
+            }
 
-                if (readyButton != null) readyButton.SetActive(true);
+            if (readyButton != null)
+                readyButton.SetActive(true);
 
-                if (startGameButton != null)
-                {
-                    bool isHost = _runner.IsServer;
-                    // Para pruebas puedes bajar este número, pero idealmente deben ser 3
-                    bool haySuficientes = conectados >= 1; 
-                    startGameButton.SetActive(isHost && haySuficientes && todosEstanListos);
-                }
+            if (startGameButton != null)
+            {
+                bool isHost = _runner.IsServer || _runner.IsSharedModeMasterClient;
+                bool enoughPlayers = connectedPlayers >= 3;
+                startGameButton.SetActive(isHost && enoughPlayers && allReady);
             }
         }
 
         public void Btn_StartGame()
         {
-            if (_gameplay != null) _gameplay.StartMatchFromUI();
+            if (_gameplay == null)
+                _gameplay = FindFirstObjectByType<Gameplay>();
+
+            if (_gameplay == null || _gameplay.State != EGameplayState.Lobby)
+                return;
+
+            _gameplay.StartMatchFromUI();
         }
 
         public void Btn_ToggleReady()
         {
-            if (_gameplay != null && _runner != null) _gameplay.RPC_ToggleReady(_runner.LocalPlayer);
+            if (_runner == null)
+                _runner = FindFirstObjectByType<NetworkRunner>();
+
+            if (_gameplay == null)
+                _gameplay = FindFirstObjectByType<Gameplay>();
+
+            if (_gameplay == null || _runner == null || !_runner.IsRunning)
+                return;
+
+            _gameplay.RPC_ToggleReady(_runner.LocalPlayer);
+        }
+
+        private void SetLobbyVisible(bool visible)
+        {
+            if (mainLobbyPanel != null)
+                mainLobbyPanel.SetActive(visible);
+
+            if (readyButton != null)
+                readyButton.SetActive(visible);
+
+            if (!visible && startGameButton != null)
+                startGameButton.SetActive(false);
         }
     }
 }

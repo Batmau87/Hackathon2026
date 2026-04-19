@@ -579,6 +579,50 @@ PrefabInstance:
       addedObject: {fileID: 286872922}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cd8566249702324290b69e1812ead40, type: 3}
+--- !u!1 &278121043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 278121045}
+  - component: {fileID: 278121044}
+  m_Layer: 0
+  m_Name: RoundDebug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &278121044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278121043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c985a17e38a243df9572e8d1957b5718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MauSceneRoundDebugUI
+--- !u!4 &278121045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278121043}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.34719, y: 4.00022, z: -8.83}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &286872921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,6 +1288,8 @@ GameObject:
   - component: {fileID: 812623087}
   - component: {fileID: 812623085}
   - component: {fileID: 812623090}
+  - component: {fileID: 812623092}
+  - component: {fileID: 812623091}
   m_Layer: 0
   m_Name: CamaraPlayer02
   m_TagString: MainCamera
@@ -1392,6 +1438,43 @@ MonoBehaviour:
   PreferredRunner: 0
   Components: []
   _guid: 4f76e268-ebfb-4b08-
+--- !u!114 &812623091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812623084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 2126920750
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 812623092}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &812623092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812623084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37217d42df54073a8e78d97eeefa985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRoundController
+  editorSlotIndex: 1
+  editorRole: 1
+  _SlotIndex: 0
+  _Role: 1
+  _Score: 0
+  _FinalBoxIndex: 0
 --- !u!1 &916476699
 GameObject:
   m_ObjectHideFlags: 0
@@ -2192,6 +2275,8 @@ GameObject:
   - component: {fileID: 1563833273}
   - component: {fileID: 1563833271}
   - component: {fileID: 1563833276}
+  - component: {fileID: 1563833278}
+  - component: {fileID: 1563833277}
   m_Layer: 0
   m_Name: CamaraPlayer01
   m_TagString: MainCamera
@@ -2340,6 +2425,43 @@ MonoBehaviour:
   PreferredRunner: 0
   Components: []
   _guid: 29b16625-53ac-4f79-
+--- !u!114 &1563833277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563833270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 3805137081
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1563833278}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1563833278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563833270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37217d42df54073a8e78d97eeefa985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRoundController
+  editorSlotIndex: 0
+  editorRole: 0
+  _SlotIndex: 0
+  _Role: 0
+  _Score: 0
+  _FinalBoxIndex: 0
 --- !u!1 &1566947410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,6 +2475,8 @@ GameObject:
   - component: {fileID: 1566947413}
   - component: {fileID: 1566947411}
   - component: {fileID: 1566947416}
+  - component: {fileID: 1566947418}
+  - component: {fileID: 1566947417}
   m_Layer: 0
   m_Name: CamaraPlayer03
   m_TagString: MainCamera
@@ -2501,6 +2625,43 @@ MonoBehaviour:
   PreferredRunner: 0
   Components: []
   _guid: 8e9e16f4-0239-43c6-
+--- !u!114 &1566947417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566947410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 3968423315
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1566947418}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1566947418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566947410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37217d42df54073a8e78d97eeefa985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRoundController
+  editorSlotIndex: 2
+  editorRole: 2
+  _SlotIndex: 0
+  _Role: 0
+  _Score: 0
+  _FinalBoxIndex: 0
 --- !u!1 &1604784953
 GameObject:
   m_ObjectHideFlags: 0
@@ -3346,6 +3507,80 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044447732}
   m_Mesh: {fileID: -2432090755550338912, guid: f41a7abdce294ae4a90b9b256f758e1a, type: 3}
+--- !u!1 &2096777954
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2096777957}
+  - component: {fileID: 2096777956}
+  - component: {fileID: 2096777955}
+  m_Layer: 0
+  m_Name: GameroundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2096777955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096777954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fb4961b7d7144bbba6f4bf2b0c80a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameRoundManager
+  autoAdvanceDelaySeconds: 4
+  autoAdvanceNextRound: 1
+  _Phase: 0
+  _ChosenConfig: 0
+  _InspectorUsedInspection:
+    _value: 0
+  _RevealResultsApplied:
+    _value: 0
+  _InspectedBoxIndex: 0
+  _RoundSequence: 0
+--- !u!114 &2096777956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096777954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 577325284
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 2096777955}
+  ForceRemoteRenderTimeframe: 0
+--- !u!4 &2096777957
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096777954}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.34719, y: 4.00022, z: -8.83}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2110815299
 GameObject:
   m_ObjectHideFlags: 0
@@ -4043,6 +4278,10 @@ MonoBehaviour:
   _BombasEnJuego: 0
   _BoxContents: 
   _OpenedBoxIndex: -1
+  _BoxAssignments: 
+  _RoundScores: 
+  _JudgeTimer: 0
+  judgeTimerDuration: 30
   _PlayerData:
     _items: []
   _State: 0
@@ -5323,3 +5562,5 @@ SceneRoots:
   - {fileID: 486705666}
   - {fileID: 329656426}
   - {fileID: 187082004}
+  - {fileID: 2096777957}
+  - {fileID: 278121045}

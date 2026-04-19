@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// Pixeliza todo el escenario EXCEPTO los modelos en highResLayers.
@@ -22,6 +23,7 @@ public class PixelizeCamera : MonoBehaviour
     GameObject _quad;
     RenderTexture _rt;
     Material _quadMat;
+    Shader unlitShader;
     int _lastResolution;
     float _lastAspect;
 
@@ -52,6 +54,7 @@ public class PixelizeCamera : MonoBehaviour
         go.transform.SetParent(transform, false);
 
         _pixelCam = go.AddComponent<Camera>();
+        go.AddComponent<UniversalAdditionalCameraData>();
         _pixelCam.clearFlags = CameraClearFlags.Skybox;
         _pixelCam.fieldOfView = _mainCam.fieldOfView;
         _pixelCam.nearClipPlane = _mainCam.nearClipPlane;
@@ -68,7 +71,15 @@ public class PixelizeCamera : MonoBehaviour
         Destroy(_quad.GetComponent<Collider>());
         _quad.transform.SetParent(transform, false);
 
-        _quadMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        if (unlitShader == null)
+            unlitShader = Shader.Find("Universal Render Pipeline/Unlit");
+        if (unlitShader == null)
+        {
+            Debug.LogError("[PixelizeCamera] No se encontró el shader URP/Unlit. Desactivando pixelización.");
+            enabled = false;
+            return;
+        }
+        _quadMat = new Material(unlitShader);
         _quadMat.SetTexture("_BaseMap", _rt);
 
         var rend = _quad.GetComponent<MeshRenderer>();

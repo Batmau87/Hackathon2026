@@ -3208,6 +3208,7 @@ MonoBehaviour:
   highResLayers:
     serializedVersion: 2
     m_Bits: 96
+  unlitShader: {fileID: 0}
   verticalResolution: 256
 --- !u!20 &812623088
 Camera:
@@ -5119,6 +5120,7 @@ MonoBehaviour:
   highResLayers:
     serializedVersion: 2
     m_Bits: 96
+  unlitShader: {fileID: 0}
   verticalResolution: 256
 --- !u!20 &1563833274
 Camera:
@@ -5319,6 +5321,7 @@ MonoBehaviour:
   highResLayers:
     serializedVersion: 2
     m_Bits: 96
+  unlitShader: {fileID: 0}
   verticalResolution: 256
 --- !u!20 &1566947414
 Camera:
@@ -7424,6 +7427,7 @@ MonoBehaviour:
   judgeBeltTarget: {fileID: 2044153983}
   beltMoveDuration: 1.5
   beltMoveEase: 7
+  judgeSpreadDistance: 3
   _CurrentRound: 1
   _PlayerTurnIndex: 0
   _DineroEnJuego: 0

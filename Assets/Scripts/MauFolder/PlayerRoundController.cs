@@ -32,9 +32,7 @@ public class PlayerRoundController : NetworkBehaviour
         {
             SlotIndex = editorSlotIndex;
             Role = editorRole;
-
-            if (FinalBoxIndex == 0 && editorSlotIndex != 0)
-                FinalBoxIndex = -1;
+            FinalBoxIndex = -1;
         }
 
         ResolveRoundManager();

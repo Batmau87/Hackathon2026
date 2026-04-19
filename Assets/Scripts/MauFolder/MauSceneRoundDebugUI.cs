@@ -19,7 +19,7 @@ public class MauSceneRoundDebugUI : MonoBehaviour
 
         if (_roundManager == null || _roundManager.Runner == null || !_roundManager.Runner.IsRunning)
         {
-            DrawMessage("Inicia una sesion Fusion y entra en MauScene para probar la ronda.");
+            DrawMessage("Inicia una sesion desde Startup, elige MauScene y entra con hasta 3 jugadores para probar la ronda.");
             return;
         }
 
@@ -30,6 +30,7 @@ public class MauSceneRoundDebugUI : MonoBehaviour
         GUILayout.Label($"Phase: {_roundManager.Phase}");
         GUILayout.Label($"Config: {_roundManager.ChosenConfig}");
         GUILayout.Label($"Round Sequence: {_roundManager.RoundSequence}");
+        GUILayout.Label($"Players Assigned: {_roundManager.GetAssignedPlayerCount()} / {_roundManager.RequiredPlayerCount}");
 
         if (localController == null)
         {

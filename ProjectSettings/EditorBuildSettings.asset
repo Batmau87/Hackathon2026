@@ -9,8 +9,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Startup.unity
     guid: 7948c420b7eadb04b8802522b9d3dca3
   - enabled: 1
+<<<<<<< Updated upstream
     path: Assets/Scenes/Hackathon2026.unity
     guid: 56cb8e6e2da59854596c39b829c2f213
+=======
+    path: Assets/Scenes/MauScene.unity
+    guid: df1396152af15214780ad88d35ecd1de
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
+>>>>>>> Stashed changes
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

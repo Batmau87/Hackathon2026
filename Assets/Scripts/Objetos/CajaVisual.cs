@@ -50,23 +50,37 @@ namespace HackathonJuego
             isOpen = true;
 
             if (boxAnimator != null)
+            {
+                boxAnimator.speed = 1f;
                 boxAnimator.SetTrigger("Abrir");
+            }
 
             if (premioAnimator != null)
+            {
+                premioAnimator.speed = 1f;
                 premioAnimator.SetTrigger("Subir");
+            }
         }
 
-        /// <summary>Cierra la caja con Animator (animación inversa).</summary>
+        /// <summary>Cierra la caja reproduciendo la animación de abrir en reversa.</summary>
         public void CerrarCaja()
         {
             if (!isOpen) return;
             isOpen = false;
 
             if (boxAnimator != null)
-                boxAnimator.SetTrigger("Cerrar");
+            {
+                var state = boxAnimator.GetCurrentAnimatorStateInfo(0);
+                boxAnimator.Play(state.fullPathHash, 0, state.normalizedTime);
+                boxAnimator.speed = -1f;
+            }
 
             if (premioAnimator != null)
-                premioAnimator.SetTrigger("Bajar");
+            {
+                var state = premioAnimator.GetCurrentAnimatorStateInfo(0);
+                premioAnimator.Play(state.fullPathHash, 0, state.normalizedTime);
+                premioAnimator.speed = -1f;
+            }
         }
 
         /// <summary>Vuelve a la posición original.</summary>

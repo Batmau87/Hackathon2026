@@ -1016,7 +1016,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7022240801523633252, guid: 01b5c1f004177c941abeece946ecd58f, type: 3}
       propertyPath: m_Name
-      value: BOX2
+      value: BOX1
       objectReference: {fileID: 0}
     - target: {fileID: 7022240801523633252, guid: 01b5c1f004177c941abeece946ecd58f, type: 3}
       propertyPath: m_Layer
@@ -3302,7 +3302,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
-  SortKey: 2126920750
+  SortKey: 538854546
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -4243,7 +4243,7 @@ Transform:
   m_GameObject: {fileID: 1236519481}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.999, y: 8.02, z: -9.57}
+  m_LocalPosition: {x: -9.999, y: 2.857, z: -9.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5200,7 +5200,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
-  SortKey: 3805137081
+  SortKey: 2217070877
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -5400,7 +5400,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
-  SortKey: 3968423315
+  SortKey: 2380357111
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -7967,7 +7967,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
-  SortKey: 2644123763
+  SortKey: 1056057559
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -8638,7 +8638,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
-  SortKey: 2373689769
+  SortKey: 785623565
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []

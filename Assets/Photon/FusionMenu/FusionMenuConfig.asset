@@ -22,16 +22,11 @@ MonoBehaviour:
   - sa
   - us
   _availableScenes:
-<<<<<<< Updated upstream
   - Name: Hackathon2026
     ScenePath: Assets/Scenes/Hackathon2026.unity
     Preview: {fileID: 0}
-  - Name: SampleScene
-    ScenePath: Assets/Scenes/SampleScene.unity
-=======
   - Name: MauScene
     ScenePath: Assets/Scenes/MauScene.unity
->>>>>>> Stashed changes
     Preview: {fileID: 0}
   _machineId: {fileID: -755480892457977500, guid: 14d0ba76e6402554fb21eb7d976871ff, type: 3}
   _codeGenerator: {fileID: 11400000, guid: 2d88136449f10fb4da15557de6b21b72, type: 2}

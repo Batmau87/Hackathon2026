@@ -20,9 +20,10 @@ namespace HackathonJuego
         Lobby = 0, 
         P0_Config = 1,      // El jugador 0 elige las probabilidades
         P1_Inspect = 2,     // El jugador 1 abre una caja
-        P2_Distribute = 3,  // El jugador 2 reparte
-        Reveal = 4,         // Se abren todas y se dan puntos
-        Finished = 5 
+        P1_Pass = 3,        // El jugador 1 pasa las cajas al juez
+        P2_Distribute = 4,  // El jugador 2 reparte
+        Reveal = 5,         // Se abren todas y se dan puntos
+        Finished = 6 
     }
 
     public class Gameplay : NetworkBehaviour, IPlayerJoined, IPlayerLeft
@@ -42,7 +43,15 @@ namespace HackathonJuego
         [Networked, Capacity(3)] public NetworkArray<int> BoxContents { get; } 
         [Networked] public int OpenedBoxIndex { get; set; } = -1; // -1 significa que ninguna ha sido abierta
 
-        // --- RPC: RECIBIR DECISIÓN DEL JUGADOR 0 ---
+        // Asignaciones del Juez: BoxAssignments[boxIndex] = stationIndex del dueño (-1 = sin asignar)
+        [Networked, Capacity(3)] public NetworkArray<int> BoxAssignments { get; }
+        // Puntuación de la ronda por estación: RoundScores[stationIndex]
+        [Networked, Capacity(3)] public NetworkArray<int> RoundScores { get; }
+        // Timer del Juez (cuenta regresiva)
+        [Networked] public float JudgeTimer { get; set; }
+        public float judgeTimerDuration = 30f;
+
+        // --- RPC: RECIBIR DECISIÓN DEL JUGADOR 0 (versión vieja con opción) ---
         [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
         public void RPC_SeleccionarPaquete(int opcionSeleccionada, RpcInfo info = default)
         {
@@ -53,12 +62,72 @@ namespace HackathonJuego
                 if (opcionSeleccionada == 1) { DineroEnJuego = 2; BombasEnJuego = 1; }
                 else if (opcionSeleccionada == 2) { DineroEnJuego = 1; BombasEnJuego = 2; }
 
-                // ¡AQUÍ MEZCLAMOS LAS CAJAS!
                 MezclarCajas();
 
                 State = EGameplayState.P1_Inspect;
                 PlayerTurnIndex = 1;
             }
+        }
+
+        // --- RPC: CONFIGURAR CAJAS DIRECTAMENTE (usado por ArchitectPanel y PlayerClicker) ---
+        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+        public void RPC_ConfigurarCajas(int box0, int box1, int box2, RpcInfo info = default)
+        {
+            if (State != EGameplayState.P0_Config) return;
+            if (!PlayerData.TryGet(info.Source, out var data) || data.StationIndex != 0) return;
+
+            BoxContents.Set(0, box0);
+            BoxContents.Set(1, box1);
+            BoxContents.Set(2, box2);
+
+            // Contar dinero/bombas
+            DineroEnJuego = 0; BombasEnJuego = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                if (BoxContents[i] == 1) DineroEnJuego++;
+                else BombasEnJuego++;
+            }
+
+            Debug.Log($"<color=green>Cajas configuradas: [{box0},{box1},{box2}]</color>");
+            State = EGameplayState.P1_Inspect;
+            PlayerTurnIndex = 1;
+        }
+
+        // --- RPC: OBSERVADOR PASA LAS CAJAS ---
+        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+        public void RPC_PasarCajas(RpcInfo info = default)
+        {
+            if (State != EGameplayState.P1_Pass) return;
+            if (!PlayerData.TryGet(info.Source, out var data) || data.StationIndex != 1) return;
+
+            // Inicializar asignaciones del Juez
+            for (int i = 0; i < 3; i++)
+                BoxAssignments.Set(i, -1);
+
+            JudgeTimer = judgeTimerDuration;
+            State = EGameplayState.P2_Distribute;
+            PlayerTurnIndex = 2;
+        }
+
+        // --- RPC: JUEZ ASIGNA UNA CAJA A UNA ESTACIÓN ---
+        [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+        public void RPC_AsignarCaja(int boxIndex, int stationIndex, RpcInfo info = default)
+        {
+            if (State != EGameplayState.P2_Distribute) return;
+            if (!PlayerData.TryGet(info.Source, out var data) || data.StationIndex != 2) return;
+            if (boxIndex < 0 || boxIndex >= 3 || stationIndex < 0 || stationIndex >= 3) return;
+
+            BoxAssignments.Set(boxIndex, stationIndex);
+
+            // Verificar si todas están asignadas
+            bool allAssigned = true;
+            for (int i = 0; i < 3; i++)
+            {
+                if (BoxAssignments[i] == -1) { allAssigned = false; break; }
+            }
+
+            if (allAssigned)
+                DoReveal();
         }
 
         private void MezclarCajas()
@@ -93,7 +162,99 @@ namespace HackathonJuego
 
         public override void Spawned()
         {
-            if (HasStateAuthority) State = EGameplayState.Lobby;
+            if (HasStateAuthority)
+            {
+                State = EGameplayState.Lobby;
+                for (int i = 0; i < 3; i++)
+                {
+                    BoxAssignments.Set(i, -1);
+                    RoundScores.Set(i, 0);
+                }
+            }
+        }
+
+        public override void FixedUpdateNetwork()
+        {
+            if (!HasStateAuthority) return;
+
+            // Timer del Juez
+            if (State == EGameplayState.P2_Distribute)
+            {
+                JudgeTimer -= Runner.DeltaTime;
+                if (JudgeTimer <= 0f)
+                {
+                    AutoDistribute();
+                    DoReveal();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Auto-asigna cajas que el Juez no asignó antes del timeout.
+        /// </summary>
+        private void AutoDistribute()
+        {
+            var unassignedBoxes = new List<int>();
+            var unassignedStations = new List<int> { 0, 1, 2 };
+
+            // Recopilar cajas sin asignar y estaciones ya usadas
+            for (int i = 0; i < 3; i++)
+            {
+                int station = BoxAssignments[i];
+                if (station == -1)
+                    unassignedBoxes.Add(i);
+                else
+                    unassignedStations.Remove(station);
+            }
+
+            // Asignar al azar
+            foreach (int box in unassignedBoxes)
+            {
+                if (unassignedStations.Count == 0) break;
+                int rndIdx = UnityEngine.Random.Range(0, unassignedStations.Count);
+                BoxAssignments.Set(box, unassignedStations[rndIdx]);
+                unassignedStations.RemoveAt(rndIdx);
+            }
+        }
+
+        /// <summary>
+        /// Calcula puntuación y pasa a Reveal.
+        /// </summary>
+        private void DoReveal()
+        {
+            // Calcular puntos: Dinero(1)= +1, Bomba(2)= -1
+            for (int i = 0; i < 3; i++)
+            {
+                int station = BoxAssignments[i];
+                if (station < 0 || station >= 3) continue;
+                int content = BoxContents[i];
+                int points = (content == 1) ? 1 : -1;
+                RoundScores.Set(station, RoundScores[station] + points);
+            }
+
+            // Sumar a Score del PlayerData
+            foreach (var kvp in PlayerData)
+            {
+                if (kvp.Value.IsConnected && kvp.Value.StationIndex >= 0 && kvp.Value.StationIndex < 3)
+                {
+                    var d = kvp.Value;
+                    d.Score += RoundScores[d.StationIndex];
+                    PlayerData.Set(kvp.Key, d);
+                }
+            }
+
+            State = EGameplayState.Reveal;
+        }
+
+        /// <summary>
+        /// Devuelve el StationIndex del jugador local (-1 si no está asignado).
+        /// </summary>
+        public int GetLocalStationIndex()
+        {
+            if (Runner == null) return -1;
+            if (PlayerData.TryGet(Runner.LocalPlayer, out var data))
+                return data.StationIndex;
+            return -1;
         }
 
         public override void Render()
@@ -206,9 +367,9 @@ namespace HackathonJuego
                 // ¡LA MAGIA! Le decimos SOLO a la compu del Jugador 1 que reproduzca la animación
                 RPC_MostrarAnimacionExclusiva(info.Source, cajaIndex, premioDentro);
 
-                // Avanzamos a la fase del Repartidor (Jugador 2)
-                State = EGameplayState.P2_Distribute;
-                PlayerTurnIndex = 2;
+                // Avanzamos a la fase de pasar cajas
+                State = EGameplayState.P1_Pass;
+                PlayerTurnIndex = 1;
             }
         }
 
